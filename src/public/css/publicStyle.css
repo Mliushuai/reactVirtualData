@@ -1,0 +1,21 @@
+.char-tiele {
+    margin: 0 auto;
+    text-align: center;
+    background-color: #494949;
+    color: #fafafa;
+}
+.leter-min {
+    margin-top: 20px;
+    border-top: 1px solid #494949;
+}
+.left-letter{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+.left-letter span{
+    font-size: 16px;
+}
+.left-letter :global .ant-tree-title{
+    font-size: 20px;
+}
