@@ -1,0 +1,8 @@
+export const NUMBERSOURCE = 'NUMBERSOURCE';
+export const NUMBERSOURCE1 = 'NUMBERSOURCE1';
+export const NUMBERSOURCE2 = 'NUMBERSOURCE2';
+export const NUMBERSOURCE3 = 'NUMBERSOURCE2';
+
+export const LOADINGS='LOADINGS'
+export const SIGN='SIGN'
+export const SIGN1='SIGN1'

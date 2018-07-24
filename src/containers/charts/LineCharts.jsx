@@ -32,83 +32,100 @@ class LineCharts extends Component {
     componentDidMount() {
         let myChart = echarts.init(this.refs.line);
         myChart.setOption({
+            title: {
+                text: '油位变化表',
+                // subtext: '纯属虚构'
+            },
+            // backgroundColor:'#2d2d31',
             tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                    type: 'cross',
-                    label: {
-                        backgroundColor: '#6a7985'
-                    }
-                }
+                trigger: 'axis'
             },
             legend: {
-                data: ['油位变化1', '油位变化2', '油位变化3', '油位变化4', '油位变化5']
+                data:['油位线','线性','警戒线']
             },
             toolbox: {
+                show: true,
                 feature: {
+                    magicType: {type: ['line', 'bar']},
+                    restore: {},
                     saveAsImage: {}
                 }
             },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
+            xAxis:  {
+                type: 'category',
+                boundaryGap: false,
+                data: ['周一','周二','周三','周四','周五','周六','周日']
             },
-            xAxis: [
-                {
-                    type: 'category',
-                    boundaryGap: false,
-                    data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value} °C'
                 }
-            ],
-            yAxis: [
-                {
-                    type: 'value'
-                }
-            ],
+            },
             series: [
                 {
-                    name: '油位变化1',
-                    type: 'line',
-                    stack: '总量',
-                    areaStyle: {normal: {}},
-                    data: [120, 132, 101, 134, 90, 230, 210]
+                    name:'线性',
+                    type:'line',
+                    data:[94, 88, 82, 76, 70, 64, 58],
+                    // markPoint: {
+                    //     data: [
+                    //         {name: '周最低', value: -2, xAxis: 1, yAxis: 0}
+                    //     ]
+                    // },
+                    // markLine: {
+                    //     data: [
+                    //         {type: 'average', name: '平均值'},
+                    //         [{
+                    //             symbol: 'none',
+                    //             x: '90%',
+                    //             yAxis: 'max'
+                    //         }, {
+                    //             symbol: 'circle',
+                    //             label: {
+                    //                 normal: {
+                    //                     position: 'start',
+                    //                     formatter: '最大值'
+                    //                 }
+                    //             },
+                    //             type: 'max',
+                    //             name: '最高点'
+                    //         }]
+                    //     ]
+                    // }
                 },
                 {
-                    name: '油位变化2',
-                    type: 'line',
-                    stack: '总量',
-                    areaStyle: {normal: {}},
-                    data: [220, 182, 191, 234, 290, 330, 310]
+                    name:'油位线',
+                    type:'line',
+                    data:[98, 92, 92, 86, 75, 63, 58],
+                    // markPoint: {
+                    //     data: [
+                    //         {type: 'max', name: '最大值'},
+                    //         {type: 'min', name: '最小值'}
+                    //     ]
+                    // },
+                    // markLine: {
+                    //     data: [
+                    //         {type: 'average', name: '平均值'}
+                    //     ]
+                    // }
                 },
                 {
-                    name: '油位变化3',
-                    type: 'line',
-                    stack: '总量',
-                    areaStyle: {normal: {}},
-                    data: [150, 232, 201, 154, 190, 330, 410]
+                    name:'警戒线',
+                    type:'line',
+                    data:[60, 60, 60, 60, 60, 60, 60],
+                    // markPoint: {
+                    //     data: [
+                    //         {type: 'max', name: '最大值'},
+                    //         {type: 'min', name: '最小值'}
+                    //     ]
+                    // },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
                 },
-                {
-                    name: '油位变化4',
-                    type: 'line',
-                    stack: '总量',
-                    areaStyle: {normal: {}},
-                    data: [320, 332, 301, 334, 390, 330, 320]
-                },
-                {
-                    name: '油位变化5',
-                    type: 'line',
-                    stack: '总量',
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'top'
-                        }
-                    },
-                    areaStyle: {normal: {}},
-                    data: [820, 932, 901, 934, 1290, 1330, 1320]
-                }
+
             ]
         });
     }

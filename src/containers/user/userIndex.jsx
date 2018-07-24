@@ -23,6 +23,7 @@ import 'echarts/lib/component/grid';
 
 import styles from './style/user.less';
 import EchartsLine from './EchartsLine'
+
 const TreeNode = Tree.TreeNode;
 const Search = Input.Search;
 const columns = [
@@ -40,7 +41,7 @@ const columns = [
         success: "正常",
         testModel: "周期20分钟/次",
         testType: "异常",
-        urls:"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=4285440562,2214366799&fm=27&gp=0.jpg"
+        urls: "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=4285440562,2214366799&fm=27&gp=0.jpg"
     }
 ];
 /**
@@ -54,8 +55,8 @@ const gData = [];
 const generateData = (_level, _preKey, _tns) => {
     const tns = _tns || gData;
     const children = [];
-    tns.push({ title: "清梅变", key:"清梅变",children:[{title:"电力",key:"电力"}] })
-    tns.push({ title: "蠡湖变", key: "蠡湖变", children: [{ title: "清本", key: "清本" }] })
+    tns.push({title: "清梅变", key: "清梅变", children: [{title: "电力", key: "电力"}]})
+    tns.push({title: "蠡湖变", key: "蠡湖变", children: [{title: "清本", key: "清本"}]})
     if (_level < 0) {
         return tns;
     }
@@ -72,7 +73,7 @@ const generateList = data => {
     for (let i = 0; i < data.length; i++) {
         const node = data[i];
         const key = node.key;
-        dataList.push({ key, title: key });
+        dataList.push({key, title: key});
         if (node.children) {
             generateList(node.children, node.key);
         }
@@ -206,8 +207,9 @@ class Main extends Component {
             autoExpandParent: true
         });
     };
+
     render() {
-        const { searchValue, expandedKeys, autoExpandParent } = this.state;
+        const {searchValue, expandedKeys, autoExpandParent} = this.state;
         const loop = data =>
             data.map(item => {
                 const index = item.title.indexOf(searchValue);
@@ -217,7 +219,7 @@ class Main extends Component {
                     index > -1 ? (
                         <span>
               {beforeStr}
-                            <span style={{ color: "#f50" }}>{searchValue}</span>
+                            <span style={{color: "#f50"}}>{searchValue}</span>
                             {afterStr}
             </span>
                     ) : (
@@ -230,7 +232,7 @@ class Main extends Component {
                         </TreeNode>
                     );
                 }
-                return <TreeNode key={item.key} title={title} />;
+                return <TreeNode key={item.key} title={title}/>;
             });
         return (
             <div style={{width: "100%", height: "800px", backgroundColor: "#fff", marginTop: "20px"}}>
@@ -240,7 +242,7 @@ class Main extends Component {
                         <Card style={{width: "100%", minHeight: 640, padding: 10}}>
                             <h3 className="char-tiele">点位列表</h3>
                             <Search
-                                style={{ marginBottom: 8 }}
+                                style={{marginBottom: 8}}
                                 placeholder="Search"
                                 onChange={this.onChange}
                             />
@@ -266,7 +268,7 @@ class Main extends Component {
                                                     <span>{item.code}</span><span>{item.codeindex}</span>
                                                 </h2>
 
-                                                <img style={{width:400,height:400}} src={item.urls} alt=""/>
+                                                <img style={{width: 400, height: 400}} src={item.urls} alt=""/>
                                                 <h3>状态：{item.success}</h3>
                                                 <h3>监测模式：{item.testModel}</h3>
                                                 <h3>监测类型：{item.testType}</h3>

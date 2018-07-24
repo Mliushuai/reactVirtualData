@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react'; // 引入了React和PropTypes。PropTypes是用于检查props参数类型，可有可无，最好是有
 import pureRender from 'pure-render-decorator';
 import { History, Link } from 'react-router';
-import { connect } from 'react-redux';
+import { numberSource }from '../../redux/action/NumberSource'
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import { is, fromJS } from 'immutable';
 import Config from '../../config/index';
 
@@ -33,6 +35,7 @@ class Main extends Component {
 			collapsed: collapsed,
     		mode: collapsed ? 'vertical' : 'inline', 
 		};
+		this.timer=null
 	}
 	onCollapse = (collapsed) => {
 		if(collapsed) Config.localItem('COLLAPSED', 'YES'); else Config.localItem('COLLAPSED', 'NO');
@@ -51,6 +54,9 @@ class Main extends Component {
   	shouldComponentUpdate(nextProps, nextState) {
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
     }
+    componentDidMount(){
+                this.props.actions.numberSource(2,"0")
+    }
 	render() {
 		// 这个组件是一个包裹组件，所有的路由跳转的页面都会以this.props.children的形式加载到本组件下
 		return (
@@ -65,7 +71,10 @@ class Main extends Component {
 	        	<Lmenu mode={ this.state.mode } />
 	        </Sider>
 	        <Layout>
-	          <Lheader collapsed={this.state.collapsed} toggle={ collapsed => this.toggle(collapsed) } />
+	          <Lheader collapsed={this.state.collapsed}
+                       toggle={ collapsed => this.toggle(collapsed) }
+                       number={this.props.sourceNumber.numberSource1===2&&this.props.sourceNumber.loading||this.props.sourceNumber.numberSource1===1?this.props.sourceNumber.numberSource1:0}
+              />
 	          <Content className="layout-content">
 	           	{this.props.children}
 	          </Content>
@@ -75,5 +84,14 @@ class Main extends Component {
 		);
 	}
 }
+const mapStateToProps = (state, ownProps) => {
+    return state
+}
 
-export default Main;
+// 将 action 作为 props 绑定到 Product 上。
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    actions: bindActionCreators({ numberSource }, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
+

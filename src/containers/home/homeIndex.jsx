@@ -1,38 +1,23 @@
 import React, {Component, PropTypes} from 'react'; // 引入了React和PropTypes
 import pureRender from 'pure-render-decorator';
 import {Router, Route, IndexRoute, browserHistory, History, Link} from 'react-router';
+import { numberSource,loadings }from '../../redux/action/NumberSource'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {onIncrement, onDecrement} from '../../redux/action/counter'
 // 公共面包屑
 import {Bcrumb} from '../../component/bcrumb/bcrumb';
-
 import styles from './style/home.less';
 import "../../public/css/publicStyle.css"
 import '../../style/left.less';
 import '../home/style/style.css'
-import {Icon, Row, Col, Card, Modal, Steps, Button, message, Table, Tree, Input} from 'antd';
+import {Icon, Row, Col, Card, Modal, Steps, Button, message, Table, Tree, Input,Spin} from 'antd';
 import someMethod from '../../containers/home/method'
-
+import {} from '../../redux/action/home'
 const Step = Steps.Step;
 const TreeNode = Tree.TreeNode;
 const Search = Input.Search;
 
 /* 以类的方式创建一个组件 */
-const columns = [{
-    title: '待处理工票',
-    dataIndex: 1,
-}, {
-    title: '远程会商',
-    dataIndex: 'XXX进行中',
-}, {
-    title: '住址',
-    dataSize: 1,
-}, {
-    title: '预警信息',
-    dataSize: 0,
-},
-];
 
 /**
  * 树结构搜索
@@ -64,10 +49,12 @@ const generateData = (_level, _preKey, _tns) => {
         {
             title: "清梅变",
             key: "清梅变",
+            pathsUrl: '/general/button',
             children: [{title: "电力", key: "电力"}]
         }, {
             title: "蠡湖变",
             key: "蠡湖变",
+            pathsUrl: '/general/button',
             children: [{title: "清本", key: "清本"}]
         })
     if (_level < 0) {
@@ -108,7 +95,7 @@ const getParentKey = (key, tree) => {
     return parentKey;
 };
 
-class Main extends Component {
+class Mains extends Component {
     constructor(props) {
         super(props);
         let date = new Date()
@@ -129,8 +116,11 @@ class Main extends Component {
             expandedKeys: [],
             searchValue: "",
             autoExpandParent: true,
-            showData: currentdate
+            showData: currentdate,
+            disabled:false,
+
         };
+        console.log(this.props.sourceNumber.numberSource2,"this.props.sourceNumber.numberSource2")
 
     }
 
@@ -158,25 +148,42 @@ class Main extends Component {
             autoExpandParent: true
         });
     };
-
+    componentWillUnmount(){
+        this.setState = (state,callback)=>{
+            return;
+        };
+    }
     componentDidMount() {
+        // const {actions} = this.props;
+        // actions.numberSource(true,"sign")
+        setTimeout(
+            this.tests
+            ,3000)
+    }
 
+    tests=()=>{
+        const {actions} = this.props;
+        actions.loadings(true)
+        this.setState({
+            disableds:true,
+            disabled:true,
+        })
     }
 
     render() {
-        const {searchValue, expandedKeys, autoExpandParent} = this.state;
+        console.log(this.props,"最后的最后")
+        const {searchValue, expandedKeys, autoExpandParent,disableds} = this.state;
         const loop = data =>
             data.map(item => {
+                console.log(item.pathsUrl)
                 const index = item.title.indexOf(searchValue);
                 const beforeStr = item.title.substr(0, index);
                 const afterStr = item.title.substr(index + searchValue.length);
                 const title =
                     index > -1 ? (
-                        <span>
-              {beforeStr}
-                            <span style={{color: "#f50"}}>{searchValue}</span>
-                            {afterStr}
-            </span>
+                        <Link to={item.pathsUrl} style={{color:"#333"}}>
+                            <span>{beforeStr}<span style={{color: "#f50"}}>{searchValue}</span>{afterStr}</span>
+                        </Link>
                     ) : (
                         <span>{item.title}</span>
                     );
@@ -222,11 +229,13 @@ class Main extends Component {
 
                                         <Link to='/home/pendingIndex'>
                                             <Card
-                                                className="nav-min"
+                                                className="nav-mins"
                                                 hoverable={true}
                                             >
                                                 <h3 style={{color: "#eee"}}>待处理工票</h3>
-                                                <h2 style={{color: "#eee"}}>1</h2>
+                                                <h2 style={{color: "#eee"}}>{disableds?this.props.sourceNumber.numberSource2===0?"0":1:"暂无工票"}</h2>
+                                                <Spin  size="large" spinning={this.props.sourceNumber.loading?false:true}/>
+
                                             </Card>
                                         </Link>
 
@@ -234,12 +243,12 @@ class Main extends Component {
                                     <div className="item">
                                         <Link to='/home/AbnormalEquipment'>
                                             <Card
-                                                className="nav-min"
+                                                className="nav-mins"
                                                 hoverable={true}
                                             >
-                                                <h3 style={{color: "#eee"}}>日常巡检</h3>
-                                                <h3 style={{color: "#eee"}}>今日巡检已完成</h3>
-                                                <h3 style={{color: "#eee"}}>下次巡检时间</h3>
+                                                <h3 style={{color: "#eee"}}>智能巡检</h3>
+                                                <h3 style={{color: "#eee"}}>进行中</h3>
+                                                <h3 style={{color: "#eee"}}>当前覆盖200个点位</h3>
                                                 <h3 style={{color: "#eee"}}>{this.state.showData}</h3>
                                             </Card>
                                         </Link>
@@ -248,27 +257,28 @@ class Main extends Component {
                                 <div className="column">
                                     <div className="item">
 
-                                        <Link to='/general/button'>
+                                        <Link to='/chart/line'>
                                             <Card
-                                                className="nav-min"
+                                                className="nav-mins"
                                                 hoverable={true}
                                             >
                                                 <h3 style={{color: "#eee"}}>环境异常</h3>
-                                                <h3 style={{color: "#eee"}}>设备异常：<span>1</span>条</h3>
+                                                <h3 style={{color: "#eee"}}>{disableds?this.props.sourceNumber.numberSource3===0?"0":0:"暂无异常"}</h3>
+                                                <Spin  size="large" spinning={this.props.sourceNumber.loading?false:true}/>
                                             </Card>
                                         </Link>
 
                                     </div>
                                     <div className="item">
 
-                                        <Link to='/home/EarlyWarning'>
+                                        <Link to='/chart/line'>
                                             <Card
-                                                className="nav-min"
+                                                className="nav-mins"
                                                 hoverable={true}
                                             >
                                                 <h3 style={{color: "#eee"}}>预警信息</h3>
-                                                <h3 style={{color: "#eee"}}>紧急：<span>0</span>条</h3>
-                                                <h3 style={{color: "#eee"}}>预警：<span>1</span>条</h3>
+                                                <h3 style={{color: "#eee"}}>预警：{disableds?this.props.sourceNumber.numberSource3===0?"0":1:"暂无预警"}</h3>
+                                                <Spin  size="large" spinning={this.props.sourceNumber.loading?false:true}/>
                                             </Card>
                                         </Link>
 
@@ -282,5 +292,16 @@ class Main extends Component {
         );
     }
 }
+const mapStateToProps = (state, ownProps) => {
+    const {sourceNumber} =state
+    return {
+        sourceNumber:sourceNumber
+    }
+}
 
-export default Main;
+// 将 action 作为 props 绑定到 Product 上。
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    actions: bindActionCreators({numberSource,loadings }, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Mains);

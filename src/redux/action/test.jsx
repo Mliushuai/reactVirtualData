@@ -25,14 +25,7 @@ export const test =(params)=>{
     // console.log(params,'testService')
     return  dispatch =>{
         console.log(params,'testService')
-        testService.test(params,(res)=>{
-            // console.log("请求成功!!!")
-            // console.log(res.data,"请求数据成功!!!")
-            // dispatch(resLogin(res.data));
-            Config.localItem(Config.localKey.userToken, (new Date()).getTime()); // 模拟登录成功返回的Token
-                   browserHistory.push('/home');
 
-        })
     }
 
 }

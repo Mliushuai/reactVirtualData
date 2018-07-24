@@ -27,7 +27,8 @@ class Login extends Component {
      * 你可以通过 this.getDOMNode() 来获取相应 DOM 节点。
      */
     componentDidMount() { 
-        const {actions} = this.props;
+        const {actions,form} = this.props;
+        console.log(actions,"actions")
         // 初始化数据
         actions.initialState();
     }
@@ -59,28 +60,28 @@ class Login extends Component {
 	}
 	// 验证密码
 	checkPassword = (rule, value, callback) => {
-		const form = this.props.form;
+        const form = this.props.form;
 	    if (value && this.state.passwordDirty) {
 	    	form.validateFields(['confirm'], { force: true });
 	    }
 	    callback();
 	}
 	//测试接口
-    test=()=>{
-         const {actions} = this.props;
-       let loginParams = { // 登录参数
-                pagesize: 10,
-                pageIndex:1,
-            };
-        actions.test(loginParams);
-    }
+    // test=()=>{
+     //     const {actions} = this.props;
+     //   let loginParams = { // 登录参数
+     //            pagesize: 10,
+     //            pageIndex:1,
+     //        };
+     //    actions.test(loginParams);
+    // }
 	render() {
-        const { loading, loginInfo, form } = this.props;
-        const getFieldDecorator = form.getFieldDecorator;
+
+        const { getFieldDecorator } = this.props.form;
 		return (
 		<div className="login-container">	
 			<div className="login-form">
-				<Spin tip="载入中..." spinning={loading}>
+				<Spin tip="载入中..." spinning={false}>
 					<div className="login-logo">
 				        <img src={Config.logoSrc} />
 				        <span>Ant Design</span>
@@ -98,7 +99,7 @@ class Login extends Component {
 				        </FormItem>
 
                         <FormItem>
-				            <Button type="primary" htmlType="submit" size="large" loading={loginInfo.length > 0 ? true : false}>{loginInfo.length > 0 ? '登录中...' : '登录'}</Button>
+				            <Button type="primary" htmlType="submit" size="large">  登录</Button>
 				        </FormItem>
 				        <div className="login-account">
                             <span>账号：sosout</span>
@@ -112,23 +113,18 @@ class Login extends Component {
 	}
 }
 
-const LoginForm = Form.create()(Login);
 
 // 将 store 中的数据作为 props 绑定到 LoginForm 上
 const mapStateToProps = (state, ownProps) => {
-    let { Common, Login,source} = state;
-    return {
-        loading: Common.loading,
-        loginInfo: Login.loginInfo,
-        source:source.sour
-    }
+
+    return state
 }
 
 // 将 action 作为 props 绑定到 Product 上。
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    actions: bindActionCreators({ initialState, goLogin,test }, dispatch)
+    actions: bindActionCreators({ initialState, goLogin }, dispatch)
 });
 
-const Main = connect(mapStateToProps, mapDispatchToProps)(LoginForm); // 连接redux
+const Main = connect(mapStateToProps, mapDispatchToProps)(Form.create()(Login)); // 连接redux
 
 export default Main;

@@ -4,7 +4,7 @@ import { LOADING } from '../constants/dispatchTypes';
 import Login from './login/loginReducer'; // 登录界面
 import counter from './counter'
 import source from './test'
-import showSources from './home'
+import sourceNumber from './NumberSource'
 import material from './a'
 // 初始化state数据
 const initialState = {
@@ -24,4 +24,4 @@ const Common = (state = initialState, action) => {
     }
 }
 
-export { Common, Login,counter,source,showSources,material};
+export { Common, Login,counter,source,sourceNumber,material};

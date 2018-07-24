@@ -1,8 +1,10 @@
 import React, {Component, PropTypes} from 'react'; // 引入了React和PropTypes
-import {connect} from 'react-redux';
 import {is, fromJS} from 'immutable';
 import {Icon, Row, Col, Card, Modal, Steps, Button, message, Table} from 'antd';
 import "./style.css"
+import { numberSource }from '../../redux/action/NumberSource'
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {Bcrumb} from '../../component/bcrumb/bcrumb';
 import LineCharts from '../charts/LineCharts'
 
@@ -10,19 +12,11 @@ import LineCharts from '../charts/LineCharts'
 const columns = [{
     key: "1",
     code: '2018-05-24-001',
-    meaterType: "火山警报",
+    meaterType: "油位警报",
     time: "2018-5-24 12:00",
     levelType: "一般",
     location: "1电站东南",
-    explain: "警报——复核——警报通知——发起应急会议——应急小组到位——问题处理——警报解——事件归档"
-}, {
-    key: "2",
-    code: '2018-08-24-001',
-    meaterType: "风雨警报",
-    time: "2018-8-24 12:00",
-    levelType: "二级",
-    location: "1电站东南",
-    explain: "警报---复核---声音驱逐---人员查看"
+    explain: "警报——复核——警报通知——问题处理——警报解——事件归档"
 }
 ];
 
@@ -45,11 +39,7 @@ class Lines extends Component {
                 {
                     key: "1",
                     title: "220kV蠡湖变隧道",
-                    name: "异常生物入侵"
-                }, {
-                    key: "2",
-                    title: "330kV蠡湖变隧道",
-                    name: "电闪雷鸣"
+                    name: "油位异常"
                 }
             ]
         }
@@ -111,15 +101,21 @@ class Lines extends Component {
     }
     deletData = (key) => {
         let nowdata = this.state.dataSource.pop()
-        if (nowdata.key == 1) {
-            this.setState({
-                showMin: false
-            })
+        const {actions} = this.props;
+        if(this.props.sourceNumber.sign===""){
+            actions.numberSource(1,"0")
+            actions.numberSource(false,"sign1")
+        }else{
+            actions.numberSource(0,"0")
+            actions.numberSource(false,"sign1")
         }
-        console.log(nowdata)
+        actions.numberSource(0,"3")
         this.setState({
-            nowData: nowdata
+            nowData: nowdata,
+            showMin: false
         })
+
+
     }
 
     render() {
@@ -235,5 +231,18 @@ class Lines extends Component {
         );
     }
 }
+const mapStateToProps = (state, ownProps) => {
+    const {sourceNumber} =state
+    return {
+        sourceNumber:sourceNumber
+    }
+}
 
-export default Lines;
+// 将 action 作为 props 绑定到 Product 上。
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    actions: bindActionCreators({numberSource }, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Lines);
+
+

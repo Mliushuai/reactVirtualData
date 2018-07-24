@@ -32,11 +32,16 @@ export class Lheader extends Component {
 			});
   		}
   	}
+  	componentDidMount(){
+
+        console.log(this.props)
+    }
 	render() {
+	    // console.log(this.props,"全部的数据!!!")
 		return (
 			<Header className="layout-header">
 	            <Icon className="trigger" type={this.props.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={this.toggle} />
-				<Link to='/home'><div className="swing-min">待处理事件：3条</div></Link>
+				<Link to='/home'><div className="swing-min">待处理事件：{this.props.number}条</div></Link>
 	            <Menu mode="horizontal" onClick={this.logout} className="layout-header-menu">
 		        <SubMenu title={<span><Icon type="user" />sosout</span>}>
 		        	<Menu.Item key="logout">注销</Menu.Item>
