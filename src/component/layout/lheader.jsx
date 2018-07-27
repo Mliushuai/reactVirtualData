@@ -48,7 +48,7 @@ class Lheaders extends Component {
 	render() {
 		return (
 			<Header className="layout-header">
-                <span style={{display:"block",color:"#fff",fontSize:"24px",float:"left",width:"230px",lineHeight:"70px",marginLeft:"25px"}}>无锡电力运检系统</span>
+                <span style={{display:"block",color:"#fff",fontSize:"24px",float:"left",width:"230px",lineHeight:"70px",marginLeft:"25px"}}>这是个模拟系统</span>
                 <Bcrumb icon={this.props.state.changeDataReducer.types} title={this.props.state.changeDataReducer.changeData}/>
 	            <div style={{position:"absolute",top:"0",right:"0",width:"25%",height:"70px"}}>
                     <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"  className="AvatarUser" />
