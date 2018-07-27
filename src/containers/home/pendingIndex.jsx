@@ -4,6 +4,10 @@ import { numberSource }from '../../redux/action/NumberSource'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Form, Input, Select, Row, Col, Card, Button, Modal, Radio,Table} from 'antd';
+// import { Player } from 'video-react';
+// import "./video-react.css";
+import { DefaultPlayer as Video } from 'react-html5video';
+import './video.css';
 import Source from"./Home"
 import Source1 from"./Home1"
 import "./style/pending.css"
@@ -22,7 +26,9 @@ class pendingIndex extends Component {
             site1:"",
             sourceDisabled:false,
         };
+        this.timer=null
     }
+    //对模态框的操作
 
     showModal = () => {
         this.setState({
@@ -41,9 +47,10 @@ class pendingIndex extends Component {
             visible: false,
         });
     }
+    //初始化数据
     Sources=()=>{
         this.setState({
-            List:false,
+            List:true,
             sourceList:[],
             data:[],
             site:[],
@@ -63,28 +70,31 @@ class pendingIndex extends Component {
         this.setState = (state,callback)=>{
             return;
         };
-    }
-    sources1=()=>{
-        this.setState({
-            // List:true,
-            // sourceList:Source.ticket,
-            data:Source1.data,
-            // site:Source.Company[0],
-            // site1:Source.data[0]
 
-        })
     }
+    //清除定时器
+    TimeInterval=()=>{
+        this.setState({
+            data:Source1.data,
+        })
+        clearInterval(this.timer)
+    }
+    //初始化加载
     componentDidMount(){
-          this.setState({
-              List:false,
-          })
+        this.timer=setInterval(
+            this.TimeInterval
+            ,2000)
         this.Sources()
 
-        setInterval(
-            this.sources1
-            ,2000)
+        if(this.props.sourceNumber.sign!==""){
+            this.setState({
+                List:false,
+                sourceDisabled:true,
+            })
+        }
 
     }
+    //通过  并触发action
     agreement=()=>{
         const {actions} = this.props;
         if(this.props.sourceNumber.sign1===""){
@@ -103,7 +113,6 @@ class pendingIndex extends Component {
     }
 
     render() {
-        console.log(this.props.sourceNumber.sign1,"待处理工票")
         const columns = [{
             title: '应拉断路器（开关）、隔离开关（刀闸）',
             dataIndex: 'name',
@@ -129,6 +138,7 @@ class pendingIndex extends Component {
         return (
             <div style={{width: "100%", height: "800px", backgroundColor: "#fff", marginTop: "20px"}}>
                 <Bcrumb title="待处理工票" icon="users"/>
+
                 <Row style={{padding: 20}}>
                     <Col xs={24} sm={24} md={24} lg={5} xl={5}>
                         <Card style={{width: "100%", minHeight: 640, padding: 10}}>
@@ -157,9 +167,20 @@ class pendingIndex extends Component {
                                         <p style={{width:"100%",display:"block",height:"20px"}}>
                                             <span style={{display:"block",width:"25%",float:"left",fontSize:"18px"}}>主变:{site1.name}</span>
                                             <span style={{display:"block",width:"25%",float:"left",fontSize:"18px"}}> 状态:{site1.age}</span></p>
-                                        <img src={require("../../public/index.jpg")}
-                                             style={{width:"40%", height: 400,marginRight:"20px",float:"left"}}
-                                             alt=""/>
+                                        {/*<img src={require("../../public/index.jpg")}*/}
+                                             {/*style={{width:"40%", height: 400,marginRight:"20px",float:"left"}}*/}
+                                             {/*alt=""/>*/}
+                                        <div style={{width:"400px",height:"400px",marginRight:"20px",float:"left"}}>
+                                            <Video autoPlay loop muted
+                                                   controls={['PlayPause', 'Seek', 'Time', 'Volume', 'Fullscreen']}
+                                                   poster=""
+                                                   onCanPlayThrough={() => {
+                                                       // Do stuff
+                                                   }}>
+                                                <source src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"  />
+                                                {/*<track label="English" kind="subtitles" srcLang="en" src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4" default />*/}
+                                            </Video>
+                                        </div>
                                         <div style={{width:"50%",height:400,border:"1px solid #aaa",marginLeft:"80px",overflow:"auto"}}>
                                             <p style={{margin:"0 auto",display:"block",textAlign:"center",fontSize:"20px",height:"50px",lineHeight:"50px",borderBottom:"1px solid #aaa"}}>变电站第一种工作票</p>
                                             <p style={{display:"block",margin:"0 auto",width:"50%",float:"left",fontSize:"15px",textAlign:"center"

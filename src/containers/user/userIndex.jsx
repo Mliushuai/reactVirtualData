@@ -7,8 +7,6 @@ import {Tree, Input} from 'antd';
 
 import {Router, Route, IndexRoute, browserHistory, Link} from 'react-router';
 import "./style.css"
-// 公共面包屑
-import {Bcrumb} from '../../component/bcrumb/bcrumb';
 // 引入 ECharts 主模块
 import echarts from 'echarts/lib/echarts';
 // 引入折线图
@@ -23,7 +21,21 @@ import 'echarts/lib/component/grid';
 
 import styles from './style/user.less';
 import EchartsLine from './EchartsLine'
+import Backgrounds from './image/img2.jpg';
+import BackgroundImage from './image/img3.jpg';
+const sectionStyles = {
+    width: "100%",
+    height: "60px",
+    backgroundImage: `url(${BackgroundImage})`,
 
+};
+const sectionStyle = {
+    width: "100%",
+    height: "80px",
+    backgroundImage: `url(${Backgrounds})`,
+    // borderBotton:"2px solid #eee",
+    backgroundSize:"100% 100%"
+};
 const TreeNode = Tree.TreeNode;
 const Search = Input.Search;
 const columns = [
@@ -235,46 +247,55 @@ class Main extends Component {
                 return <TreeNode key={item.key} title={title}/>;
             });
         return (
-            <div style={{width: "100%", height: "800px", backgroundColor: "#fff", marginTop: "20px"}}>
-                <Bcrumb title="日常巡检" icon="users"/>
-                <Row style={{padding: 20}}>
-                    <Col xs={24} sm={24} md={24} lg={5} xl={5}>
-                        <Card style={{width: "100%", minHeight: 640, padding: 10}}>
-                            <h3 className="char-tiele">点位列表</h3>
+            <div >
+                <div className="DayContent">
+                <Row >
+                    <Col xs={24} sm={24} md={24} lg={6} xl={6}>
+                        <Card style={{width: "100%", minHeight: 810}}>
+                            <div style={sectionStyles} >
+                                <h3 className="char-tieles">点位列表</h3>
+                            </div>
                             <Search
-                                style={{marginBottom: 8}}
-                                placeholder="Search"
+                                style={{marginBottom: 8,marginLeft:"20px",marginTop:"25px",width:"90%"}}
+                                placeholder="请输入要搜索的点位"
                                 onChange={this.onChange}
                             />
                             <Tree
                                 onExpand={this.onExpand}
                                 expandedKeys={expandedKeys}
                                 autoExpandParent={autoExpandParent}
+                                style={{marginLeft:"16px"}}
                             >
                                 {loop(gData)}
                             </Tree>
                         </Card>
                     </Col>
-                    <Col xs={24} sm={24} md={24} lg={17} xl={17} style={{marginLeft: 50}}>
-                        <Card style={{width: "100%", minHeight: 640}}>
-                            <h2>蠡湖变</h2>
+                    <Col xs={24} sm={24} md={24} lg={18} xl={18}>
+                        <Card style={{width: "100%", minHeight: 810,}}>
+                            <div style={sectionStyle} >
+                                <span style={{}} className="change">蠡湖变</span>
+                            </div>
+
+
                             {this.state.nowData.map((item, index) => {
-                                console.log(item.urls)
                                 return (
                                     <div key={index}>
                                         <Col key={index} xs={24} sm={24} md={24} lg={12} xl={12}>
                                             <div key={index} className="user-container">
-                                                <h2>
-                                                    <span>{item.code}</span><span>{item.codeindex}</span>
-                                                </h2>
+                                                <span style={{display:"block",width:"100%",fontSize:"16px",paddingLeft:"20px",marginTop:"15px"}}>
+                                                    <span style={{float:"left"}}>巡检编号:{item.code}</span><span style={{float:"right",paddingRight:"20px"}}>{item.codeindex}</span>
+                                                </span>
 
-                                                <img style={{width: 400, height: 400}} src={item.urls} alt=""/>
-                                                <h3>状态：{item.success}</h3>
-                                                <h3>监测模式：{item.testModel}</h3>
-                                                <h3>监测类型：{item.testType}</h3>
+                                                <img style={{width: 610, height: 400,marginTop:"15px",paddingLeft:"20px"}} src={item.urls} alt=""/>
+                                                <h3 style={{display:"block",width:"100%",fontSize:"16px",paddingLeft:"20px",marginTop:"15px"}}>
+                                                    <span style={{width:"10px",height:"10px",backgroundColor:"#f2ba0f",display:"block",float:"left",marginTop:"7px"}}></span>&nbsp;&nbsp;状态：{item.success}</h3>
+                                                <h3 style={{display:"block",width:"100%",fontSize:"16px",paddingLeft:"20px",marginTop:"15px"}}>
+                                                    <span style={{width:"10px",height:"10px",backgroundColor:"#f13283",display:"block",float:"left",marginTop:"7px"}}></span>&nbsp;&nbsp;监测模式：{item.testModel}</h3>
+                                                <h3 style={{display:"block",width:"100%",fontSize:"16px",paddingLeft:"20px",marginTop:"15px"}}>
+                                                    <span style={{width:"10px",height:"10px",backgroundColor:"#10a3e7",display:"block",float:"left",marginTop:"7px"}}></span>&nbsp;&nbsp;监测类型：{item.testType}</h3>
                                                 <div className="user-test-button">
                                                     <Dropdown overlay={menu}>
-                                                        <Button style={{marginLeft: 8}} type="primary">
+                                                        <Button style={{float:"right",backgroundColor:"#384042",color:"#Fff"}} >
                                                             操作 <Icon type="down"/>
                                                         </Button>
                                                     </Dropdown>
@@ -287,6 +308,7 @@ class Main extends Component {
                         </Card>
                     </Col>
                 </Row>
+                </div>
                 <Modal
                     title="巡检详情"
                     visible={this.state.visible}

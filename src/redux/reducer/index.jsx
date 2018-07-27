@@ -6,6 +6,7 @@ import counter from './counter'
 import source from './test'
 import sourceNumber from './NumberSource'
 import material from './a'
+import changeDataReducer from './changekeyDataReducer'
 // 初始化state数据
 const initialState = {
     loading: false
@@ -24,4 +25,4 @@ const Common = (state = initialState, action) => {
     }
 }
 
-export { Common, Login,counter,source,sourceNumber,material};
+export { Common, Login,counter,source,sourceNumber,material,changeDataReducer};

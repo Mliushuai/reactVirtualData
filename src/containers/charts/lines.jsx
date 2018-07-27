@@ -8,6 +8,7 @@ import {bindActionCreators} from 'redux';
 import {Bcrumb} from '../../component/bcrumb/bcrumb';
 import LineCharts from '../charts/LineCharts'
 
+
 /* 以类的方式创建一个组件 */
 const columns = [{
     key: "1",
@@ -20,7 +21,9 @@ const columns = [{
 }
 ];
 
+
 class Lines extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -78,6 +81,11 @@ class Lines extends Component {
                 })
             }
         })
+        if(this.props.sourceNumber.sign1!==""){
+            this.setState({
+                showMin: false
+            })
+        }
     }
 
     ListSource = (key) => {

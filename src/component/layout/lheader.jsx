@@ -1,9 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { Router,Link } from 'react-router';
-
+import {Bcrumb} from '../../component/bcrumb/bcrumb';
 import { is, fromJS } from 'immutable';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu, Icon,Avatar,Badge   } from 'antd';
 import Config from '../../config/index';
+import {connect} from 'react-redux';
+import { browserHistory } from 'react-router';
+import {bindActionCreators} from 'redux';
+import {changekeyData} from '../../redux/action/changeKeyActions';
+import './style/layout.less'
 const SubMenu = Menu.SubMenu;
 const { Header } = Layout;
 
@@ -13,9 +18,12 @@ const { Header } = Layout;
  * @class Lheader
  * @extends {Component}
  */
-export class Lheader extends Component {
+class Lheaders extends Component {
 	constructor(props, context) {
 		super(props, context); //后才能用this获取实例化对象
+		this.state={
+			changeKey:this.props.state.changeDataReducer.changeData
+		}
 	}
 	shouldComponentUpdate(nextProps, nextState) {
         return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
@@ -34,24 +42,49 @@ export class Lheader extends Component {
   	}
   	componentDidMount(){
 
-        console.log(this.props)
+        console.log(this.props,"标题")
+        browserHistory.push('/home')
     }
 	render() {
-	    // console.log(this.props,"全部的数据!!!")
 		return (
 			<Header className="layout-header">
-	            <Icon className="trigger" type={this.props.collapsed ? 'menu-unfold' : 'menu-fold'} onClick={this.toggle} />
-				<Link to='/home'><div className="swing-min">待处理事件：{this.props.number}条</div></Link>
-	            <Menu mode="horizontal" onClick={this.logout} className="layout-header-menu">
-		        <SubMenu title={<span><Icon type="user" />sosout</span>}>
-		        	<Menu.Item key="logout">注销</Menu.Item>
-		        </SubMenu>
-			    </Menu>
+                <span style={{display:"block",color:"#fff",fontSize:"24px",float:"left",width:"230px",lineHeight:"70px",marginLeft:"25px"}}>无锡电力运检系统</span>
+                <Bcrumb icon={this.props.state.changeDataReducer.types} title={this.props.state.changeDataReducer.changeData}/>
+	            <div style={{position:"absolute",top:"0",right:"0",width:"25%",height:"70px"}}>
+                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"  className="AvatarUser" />
+                    <Menu mode="horizontal" onClick={this.logout} className="AvatarRoot">
+                        <SubMenu title={<span>sosout</span>} >
+                            <Menu.Item key="logout" style={{width:"80px"}}>注销</Menu.Item>
+                        </SubMenu>
+                    </Menu>
+                    <Icon type="clock-circle-o" className="AvatarIconBell"/>
+                    <Icon type="setting" className="AvatarIconSetting" />
+                    <Badge count={this.props.number} className="AvatarIcon">
+                        <Link to='/home'><Icon type="bell" /></Link>
+                    </Badge>
+                </div>
 	        </Header>
 		)
 	}
 }
 
-Lheader.contextTypes = {
-    router: React.PropTypes.object.isRequired
-};
+// Lheader.contextTypes = {
+//     router: React.PropTypes.object.isRequired
+// };
+// 将 state 作为 props 绑定到 Product 上。
+const mapStateToProps = (state, ownProps) => {
+    const {sourceNumber,changeDataReducer} = state
+    return {
+        sourceNumber: sourceNumber,
+        changeData:changeDataReducer,
+        state
+    }
+}
+
+// 将 action 作为 props 绑定到 Product 上。
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    actions: bindActionCreators({changekeyData}, dispatch)
+});
+
+const Lheader = connect(mapStateToProps, mapDispatchToProps)(Lheaders)
+export default Lheader

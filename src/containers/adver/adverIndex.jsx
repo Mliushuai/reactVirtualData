@@ -57,6 +57,7 @@ class Advers extends Component {
 
         return children;
     };
+    //搜索、标题栏
     getFieldsed = () => {
 
         const {getFieldDecorator} = this.props.form;
@@ -150,26 +151,22 @@ class Advers extends Component {
         return children;
     };
     showModal=()=>{
-        console.log("单击")
         this.setState({
             visible: true,
         });
     }
     handleOk = (e) => {
-        console.log(e);
         this.setState({
             visible: false,
         });
     }
 
     handleCancel = (e) => {
-        console.log(e);
         this.setState({
             visible: false,
         });
     }
     componentDidMount(){
-        console.log("777")
     }
 
 	render() {

@@ -6,11 +6,11 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { is, fromJS } from 'immutable';
 import Config from '../../config/index';
-
+import Background from './image/img1.jpg';
 // 公共头部
-import { Lheader } from './lheader';
+import  Lheader  from './lheader';
 // 公共菜单
-import { Lmenu } from './lmenu';
+import  Lmenu  from './lmenu';
 // 公共底部
 import { Lfooter } from './lfooter';
 
@@ -18,7 +18,12 @@ import { Lfooter } from './lfooter';
 import './style/layout.less';
 
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
-const { Content, Footer, Sider } = Layout;
+const sectionStyle = {
+    width: "100%",
+    height: "100%",
+    backgroundImage: `url(${Background})`
+};
+const { Content, Footer, Sider,Header } = Layout;
 const SubMenu = Menu.SubMenu;
 
 /**
@@ -61,25 +66,33 @@ class Main extends Component {
 		// 这个组件是一个包裹组件，所有的路由跳转的页面都会以this.props.children的形式加载到本组件下
 		return (
 		<Layout className="layout">
-	        <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
-		        <div className="layout-logo">
-		        	<Link to="/home">
-			        	<img className="logo-img" src={Config.logoSrc} />
-			        	<span className="logo-text">{Config.logoText}</span>
-		        	</Link>
-		        </div>
-	        	<Lmenu mode={ this.state.mode } />
-	        </Sider>
-	        <Layout>
-	          <Lheader collapsed={this.state.collapsed}
-                       toggle={ collapsed => this.toggle(collapsed) }
-                       number={this.props.sourceNumber.numberSource1===2&&this.props.sourceNumber.loading||this.props.sourceNumber.numberSource1===1?this.props.sourceNumber.numberSource1:0}
-              />
-	          <Content className="layout-content">
-	           	{this.props.children}
-	          </Content>
-	          <Lfooter />
-	        </Layout>
+           <Lheader collapsed={this.state.collapsed}
+                         toggle={ collapsed => this.toggle(collapsed) }
+                         number={this.props.sourceNumber.numberSource1===2&&this.props.sourceNumber.loading||this.props.sourceNumber.numberSource1===1?this.props.sourceNumber.numberSource1:0}
+           />
+            <Layout>
+                <Sider collapsible
+                       collapsed={this.state.collapsed}
+                       onCollapse={this.onCollapse}
+                       style={sectionStyle}
+                >
+                    {/*<div className="layout-logo">*/}
+                        {/*<Link to="/home">*/}
+                            {/*<img className="logo-img" src={Config.logoSrc} />*/}
+                            {/*<span className="logo-text">{Config.logoText}</span>*/}
+                        {/*</Link>*/}
+                    {/*</div>*/}
+                    <Lmenu mode={ this.state.mode } />
+
+                </Sider>
+                <Layout>
+                    <Content className="layout-content">
+                    {this.props.children}
+                    </Content>
+                    <Lfooter />
+                </Layout>
+            </Layout>
+
 	    </Layout>
 		);
 	}

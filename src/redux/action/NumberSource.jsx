@@ -4,7 +4,6 @@ export const numberSource =(prams,type)=>{
 
     return  dispatch =>{
         if(type==="0"){
-            console.log(prams,"0000000")
             dispatch({type:NUMBERSOURCE,num:prams})
         }else if(type==="1"){
             dispatch({type:NUMBERSOURCE1,num:prams})

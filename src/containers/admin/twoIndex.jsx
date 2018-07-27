@@ -18,7 +18,7 @@ class Just extends Component {
             value:"1"
          }}
 
-
+    //表单制作
     getFieldsed() {
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
@@ -119,6 +119,7 @@ class Just extends Component {
            numList:num,
        })
     }
+    //删除数据
     removeSource=()=>{
         if(this.state.callbackType==="1"){
             this.state.dataSource.splice(this.state.numList, 1)
@@ -151,6 +152,7 @@ class Just extends Component {
             })
         }
     }
+    //Right点击左侧描述变化
     onChanges = (e) => {
         this.setState({
             value: e.target.value,

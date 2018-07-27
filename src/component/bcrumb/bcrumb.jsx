@@ -18,12 +18,12 @@ export class Bcrumb extends Component {
 	}
 	render() {
 		return (
-			<Breadcrumb className="bread-crumb" style={{marginLeft:"20px",fontSize:"15px",color:"#000"}}>
-                <Breadcrumb.Item>
-                    <Link to="/home"><Icon type="home" /><span>主页</span></Link>
+			<Breadcrumb className="bread-crumb" style={{marginLeft:"20px",fontSize:"15px",color:"#eee"}}>
+                <Breadcrumb.Item style={{color:"#eee"}}>
+                    <Link to="/home"><Icon type="home"style={{color:"#eee"}} /><span style={{color:"#eee"}}>主页</span></Link>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item>
-                    <Icon type={this.props.icon ? this.props.icon : 'laptop'} /><span>{ this.props.title }</span>
+                <Breadcrumb.Item style={{color:"#eee"}}>
+                    <Icon type={this.props.icon ? this.props.icon : 'laptop'} /><span style={{color:"#eee"}}>{ this.props.title }</span>
                 </Breadcrumb.Item>
             </Breadcrumb> 
 		)

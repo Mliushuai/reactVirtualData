@@ -1,0 +1,29 @@
+:global .ant-card-body {
+    padding:0;
+}
+.publicTitle{
+    margin: 0 auto;
+    text-align: left;
+    border-bottom: 2px solid #eee;
+    padding-left: 20px;
+    color: #384042;
+    line-height:60px;
+}
+:global .ant-tree{
+    padding-left:15px;
+}
+:global .ant-card-wider-padding .ant-card-body{
+    padding:0;
+    height:810px;
+}
+.publicChange{
+    width:100%;
+    margin:0;
+    padding:0;
+    line-height:80px;
+    text-align:left;
+    padding-left:20px;
+    display:block;
+    font-size:16px;
+    border-bottom:2px solid #eee
+}

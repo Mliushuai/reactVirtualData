@@ -225,7 +225,7 @@ class AdvancedSearchForm extends Component {
 
     }
 
-    // To generate mock Form.Item
+    // 新增
     getFields() {
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
@@ -360,7 +360,6 @@ class AdvancedSearchForm extends Component {
         });
     }
     onChanges = (e) => {
-        console.log('radio checked', e.target.value);
         this.setState({
             values: e.target.value,
         });
@@ -368,6 +367,7 @@ class AdvancedSearchForm extends Component {
     handleChange=(value)=>{
 
     }
+    //编辑
     getFieldsed() {
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
@@ -516,7 +516,6 @@ class AdvancedSearchForm extends Component {
         return children;
     }
     componentDidMount(){
-        console.log(this.state.type,"99999")
     }
     showAdd=(type,record)=>{
         if(type==="add"){
@@ -635,6 +634,7 @@ class AdvancedSearchForm extends Component {
         this.handleCancels()
         message.success("新增人员成功!")
     };
+    //树结构编写
     renderTreeNodes = (data) => {
         return data.map((item) => {
             if (item.children) {
