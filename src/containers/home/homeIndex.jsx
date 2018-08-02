@@ -170,6 +170,7 @@ class Mains extends Component {
     }
 
     componentDidMount() {
+        this.LinkHome()
         setTimeout(
             this.tests
             , 3000)
@@ -182,6 +183,9 @@ class Mains extends Component {
             disableds: true,
             disabled: true,
         })
+    }
+    LinkHome=()=>{
+        browserHistory.push('/general')
     }
 
     render() {
@@ -264,7 +268,7 @@ class Mains extends Component {
                                     </p>
                                     <p style={{fontSize: "20px", margin: "0", textAlign: "center", marginTop: "20px"}}>
                                         待处理工票</p>
-                                    <Link to='/home/pendingIndex'>
+                                    <Link to='/onekey'>
                                         <Button style={{
                                             display: "block", margin: "0 auto",
                                             marginTop: "35px", width: "150px", height: "40px",
@@ -298,7 +302,7 @@ class Mains extends Component {
                                     </p>
                                     <p style={{fontSize: "20px", margin: "0", textAlign: "center", marginTop: "20px"}}>
                                         环境异常</p>
-                                    <Link to='/chart/line'>
+                                    <Link to='/larum'>
                                         <Button style={{
                                             display: "block", margin: "0 auto",
                                             marginTop: "35px", width: "150px", height: "40px",
@@ -332,7 +336,7 @@ class Mains extends Component {
                                     </p>
                                     <p style={{fontSize: "20px", margin: "0", textAlign: "center", marginTop: "20px"}}>
                                         预警信息</p>
-                                    <Link to='/chart/line'>
+                                    <Link to='/larum'>
                                         <Button style={{
                                             display: "block", margin: "0 auto",
                                             marginTop: "35px", width: "150px", height: "40px",
@@ -365,7 +369,7 @@ class Mains extends Component {
                                     </p>
                                     <p style={{fontSize: "20px", margin: "0", textAlign: "center", marginTop: "20px"}}>
                                         智能巡检</p>
-                                    <Link to='/home/AbnormalEquipment'>
+                                    <Link to='/AIinspect'>
                                         <Button style={{
                                             display: "block", margin: "0 auto",
                                             marginTop: "35px", width: "150px", height: "40px",

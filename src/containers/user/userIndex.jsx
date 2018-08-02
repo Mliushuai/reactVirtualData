@@ -109,10 +109,10 @@ const getParentKey = (key, tree) => {
 
 const menu = (
     <Menu onClick={handleMenuClick} style={{width: 120, textAlign: "center"}}>
-        <Menu.Item key="1"> <Link to="/adver"><Icon type="user"/>详情查看</Link></Menu.Item>
-        <Menu.Item key="2"> <Link to="/adver"><Icon type="pie-chart"/>历史数据</Link></Menu.Item>
-        <Menu.Item key="3"><Link to="/general/button"><Icon type="dashboard"/>更改配置</Link></Menu.Item>
-        <Menu.Item key="4"> <Link to="/chart/line"><Icon type="calendar"/>报告异常</Link></Menu.Item>
+        <Menu.Item key="1"> <Link to="/history"><Icon type="user"/>详情查看</Link></Menu.Item>
+        <Menu.Item key="2"> <Link to="/history"><Icon type="pie-chart"/>历史数据</Link></Menu.Item>
+        <Menu.Item key="3"><Link to="/parameter"><Icon type="dashboard"/>更改配置</Link></Menu.Item>
+        <Menu.Item key="4"> <Link to="/larum"><Icon type="calendar"/>报告异常</Link></Menu.Item>
     </Menu>
 );
 

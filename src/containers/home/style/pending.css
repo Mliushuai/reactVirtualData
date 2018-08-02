@@ -33,7 +33,6 @@
 }
 
 .button-min {
-    float: right;
     margin-bottom: 10px;
     margin-right: 40px;
 }
@@ -43,6 +42,28 @@
     margin-right: 40px;
     background-color: #f16714;
     color: #fafafa;
+}
+.char-tieles {
+    margin: 0 auto;
+    text-align: left;
+    border-bottom: 2px solid #eee;
+    padding-left: 20px;
+    color: #384042;
+    line-height:60px;
+}
+.ant-card-body{
+    padding:0 !important;
+}
+.oneKeyChange{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    line-height: 80px;
+    text-align: left;
+    padding-left: 20px;
+    display: block;
+    font-size: 16px;
+    border-bottom: 2px solid #eee;
 }
 
 

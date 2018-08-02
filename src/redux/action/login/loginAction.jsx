@@ -41,7 +41,7 @@ export const goLogin = (params) => {
 
     return dispatch => {
         dispatch(loading(true));
-        LoginService.goLogin(params)
+        // LoginService.goLogin(params)
         browserHistory.push('/home')
         // console.log(LoginService.goLogin(params),"LoginService.goLogin")
         // LoginService.goLogin(params, (res) => {

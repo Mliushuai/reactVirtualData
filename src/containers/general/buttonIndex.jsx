@@ -9,13 +9,33 @@ import './style.css'
 // 公共面包屑
 import {Bcrumb} from '../../component/bcrumb/bcrumb';
 import EchartGauge from './EchartGauge'
-
+import Backgrounds from '../image/img2.jpg';
+import BackgroundImage from '../image/img3.jpg';
+import LongBan from '../image/logBan.jpg'
 
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
 const Option = Select.Option;
 const TreeNode = Tree.TreeNode;
 const Search = Input.Search;
+/**
+ * 北京图片引入
+ * @type {{width: string, height: string, backgroundImage: string}}
+ */
+const sectionStyles = {
+    width: "100%",
+    height: "60px",
+    backgroundImage: `url(${BackgroundImage})`,
+borderBottom:"1px solid #d6e1e4"
+};
+const sectionStyle = {
+    width: "100%",
+    height: "80px",
+    backgroundImage: `url(${Backgrounds})`,
+    backgroundSize:"100% 100%",
+    borderBottom:"1px solid #d6e1e4"
+};
+
 
 /**
  *
@@ -546,13 +566,14 @@ class Mains extends Component {
     };
 
     render() {
+        console.log(this.props,"this.propsthis.props")
         const {nowData} = this.state;
         const minLayout = {
             xs: {span: 24},
             sm: {span: 24},
             md: {span: 24},
-            lg: {span: 11},
-            xl: {span: 11}
+            lg: {span: 10},
+            xl: {span: 10}
         };
         const {searchValue, expandedKeys, autoExpandParent} = this.state;
         const loop = data =>
@@ -580,14 +601,15 @@ class Mains extends Component {
                 return <TreeNode key={item.key} title={title}/>;
             });
         return (
-            <div style={{width: "100%", height: "800px", backgroundColor: "#fff", marginTop: "20px"}}>
-                <Bcrumb title="事件消息编制" icon="users110"/>
-                <Row style={{padding: 20}}>
-                    <Col xs={24} sm={24} md={24} lg={5} xl={5}>
-                        <Card style={{width: "100%", minHeight: 640, padding: 10}}>
-                            <h3 className="char-tiele">点位列表</h3>
+            <div style={{width: "100%", height: "800px", backgroundColor: "#fff"}}>
+                <Row>
+                    <Col xs={24} sm={24} md={24} lg={6} xl={6}>
+                            <div style={sectionStyles}>
+                                <h3 style={{marginLeft:14,paddingTop:14}}>点位列表</h3>
+                            </div>
+                        <div style={{width:"100%",height:680,overflow:"auto"}}>
                             <Search
-                                style={{marginBottom: 8}}
+                                style={{marginBottom: 8,width:"90%",marginLeft:"4%",marginTop:10}}
                                 placeholder="Search"
                                 onChange={this.onChange}
                             />
@@ -602,16 +624,17 @@ class Mains extends Component {
                             <div className="add-buts">
                                 <Button type="primary" size="large" onClick={this.showModalAdd}>新增</Button>
                             </div>
-                        </Card>
+                        </div>
                     </Col>
-                    <Col xs={24} sm={24} md={24} lg={17} xl={17} style={{marginLeft: "50px"}}>
-                        <Card style={{width: "100%", minHeight: 640, padding: 10}}>
-                            <div className="test-min">
-                                <Row style={{width: "100%"}}>
+                    <Col xs={24} sm={24} md={24} lg={18} xl={18}>
+                            <div className="test-mins">
+                                <div style={sectionStyle}>
+                                </div>
+                                <div>
                                     {this.state.nowData.map((item, index) => {
                                         return (
                                             <div key={index}>
-                                                <Col {...minLayout} style={{marginRight: 40}}>
+                                                <Col {...minLayout} style={{marginRight: 40,marginTop:40,marginLeft:40}}>
                                                     <div>
                                                         <img width="100%" src={require("../../public/index.jpg")}
                                                              alt=""/>
@@ -623,7 +646,7 @@ class Mains extends Component {
                                                         <h3><span>说明：</span><span>{item.minArray}</span></h3>
                                                     </div>
                                                 </Col>
-                                                <Col {...minLayout}>
+                                                <Col  {...minLayout} style={{marginRight: 40,marginTop:40}}>
                                                     <div>
                                                         <EchartGauge
                                                             min={0}
@@ -639,8 +662,7 @@ class Mains extends Component {
                                             </div>
                                         )
                                     })}
-
-                                </Row>
+                                </div>
                             </div>
                             <div className="join-but">
                                 <Button
@@ -672,7 +694,7 @@ class Mains extends Component {
                                 {this.testForm()}
 
                             </Modal>
-                        </Card>
+
                     </Col>
 
                 </Row>

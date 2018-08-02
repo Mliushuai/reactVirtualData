@@ -43,13 +43,13 @@ class Lheaders extends Component {
   	componentDidMount(){
 
         console.log(this.props,"标题")
-        browserHistory.push('/home')
+        // browserHistory.push('/home')
     }
 	render() {
 		return (
 			<Header className="layout-header">
-                <span style={{display:"block",color:"#fff",fontSize:"24px",float:"left",width:"230px",lineHeight:"70px",marginLeft:"25px"}}>这是个模拟系统</span>
-                <Bcrumb icon={this.props.state.changeDataReducer.types} title={this.props.state.changeDataReducer.changeData}/>
+                <span style={{display:"block",color:"#fff",fontSize:"24px",float:"left",width:"230px",lineHeight:"70px",marginLeft:"25px"}}>无锡电力运检系统</span>
+                {/*<Bcrumb icon={this.props.state.changeDataReducer.types} title={this.props.state.changeDataReducer.changeData}/>*/}
 	            <div style={{position:"absolute",top:"0",right:"0",width:"25%",height:"70px"}}>
                     <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"  className="AvatarUser" />
                     <Menu mode="horizontal" onClick={this.logout} className="AvatarRoot">
@@ -58,7 +58,7 @@ class Lheaders extends Component {
                         </SubMenu>
                     </Menu>
                     <Icon type="clock-circle-o" className="AvatarIconBell"/>
-                    <Icon type="setting" className="AvatarIconSetting" />
+                    <Link to='/admin/organ'><Icon type="setting" className="AvatarIconSetting" /></Link>
                     <Badge count={this.props.number} className="AvatarIcon">
                         <Link to='/home'><Icon type="bell" /></Link>
                     </Badge>

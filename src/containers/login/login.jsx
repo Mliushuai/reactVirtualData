@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { is, fromJS } from 'immutable';
 import Config from '../../config/index';
-
+import { browserHistory } from 'react-router';
 import { initialState, goLogin } from '../../redux/action/login/loginAction';//引入Action
 import {test} from '../../redux/action/test'
 
@@ -34,6 +34,7 @@ class Login extends Component {
     }
   	handleSubmit = (e) => { // 登录
     	e.preventDefault();
+
         const {actions, form} = this.props;
 	    form.validateFieldsAndScroll((err, values) => {
 		    if (!err) {
@@ -75,11 +76,12 @@ class Login extends Component {
      //        };
      //    actions.test(loginParams);
     // }
+
 	render() {
 
         const { getFieldDecorator } = this.props.form;
 		return (
-		<div className="login-container">	
+		<div className="login-container">
 			<div className="login-form">
 				<Spin tip="载入中..." spinning={false}>
 					<div className="login-logo">

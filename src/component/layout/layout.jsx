@@ -85,8 +85,8 @@ class Main extends Component {
                     <Lmenu mode={ this.state.mode } />
 
                 </Sider>
-                <Layout>
-                    <Content className="layout-content">
+                <Layout style={{border:"#bac2c4 1px solid"}}>
+                    <Content className="layout-content" style={{borderRight:"#bac2c4 1px solid"}}>
                     {this.props.children}
                     </Content>
                     <Lfooter />

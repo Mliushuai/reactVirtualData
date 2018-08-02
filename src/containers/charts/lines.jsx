@@ -6,8 +6,22 @@ import { numberSource }from '../../redux/action/NumberSource'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Bcrumb} from '../../component/bcrumb/bcrumb';
+import '../home/style/style.css'
 import LineCharts from '../charts/LineCharts'
+import Backgrounds from '../image/img2.jpg';
+import BackgroundImage from '../image/img3.jpg';
+const sectionStyles = {
+    width: "100%",
+    height: "60px",
+    backgroundImage: `url(${BackgroundImage})`,
 
+};
+const sectionStyle = {
+    width: "100%",
+    height: "80px",
+    backgroundImage: `url(${Backgrounds})`,
+    backgroundSize:"100% 100%"
+};
 
 /* 以类的方式创建一个组件 */
 const columns = [{
@@ -129,35 +143,29 @@ class Lines extends Component {
     render() {
         const {dataSource, code, time, meaterType, levelType, location, explain, key} = this.state;
         return (
-            <div style={{width: "100%", height: "900px", backgroundColor: "#fff", marginTop: "20px",}}>
-                <Bcrumb title="应急事件" icon="users"/>
-                <Row style={{padding: 20}}>
-                    <Col xs={24} sm={24} md={24} lg={5} xl={5}>
-                        <Card style={{width: "100%", minHeight: 640, padding: 10}}>
-                            <h3 className="char-tiele">异常列表</h3>
-                            <div style={{display: this.state.showMin === true ? "block" : "none"}}>
-                            <div className="leter-min">
+            <div >
+                <Row >
+                    <Col xs={24} sm={24} md={24} lg={6} xl={6}>
+                        <Card style={{width: "100%", minHeight: 810}}>
+                            <div style={sectionStyles} >
+                                <h3 className="char-tieles">点位列表</h3>
+                            </div>
+                            <div>
                                 {
                                     dataSource.map((item, index) => {
-                                        return <p style={{
-                                            display: "block",
-                                            height: "25px",
-                                            lineHeight: "25px",
-                                            fontSize: "18px",
-                                            textAlign: "center",
-                                            paddingTop: "20px"
-                                        }} key={index}
+                                        return <div
+                                            key={index}
+                                            style={{height:"50px",fontSize:"16px",marginTop:"10px"}}
                                         >
-                                            <span style={{width: "50%", textAlign: "left", cursor: "pointer"}}
+                                            <span style={{width: "50%", textAlign: "left", cursor: "pointer",lineHeight:"50px",paddingLeft:"20px"}}
                                                   onClick={this.ListSource.bind(this, item.key)}>{item.title}</span><span
-                                            style={{width: "50%", marginLeft: "30px"}}>{item.name}</span></p>
+                                            style={{width: "50%", float:"right",lineHeight:"50px",textAlign:"right",paddingRight:"20px"}}>{item.name}</span></div>
                                     })
                                 }
                             </div>
-                            </div>
                             <div style={{display: this.state.showMin === true ? "none" : "block"}}>
                                 <Card style={{
-                                    width: "100%", minHeight: 640, padding: 10, display: "flex", justifyContent: "center"
+                                    width: "100%", minHeight: 810, display: "flex", justifyContent: "center"
                                     , alignItems: "center",
                                 }}>
                                     <h1>异常情况已解除</h1>
@@ -165,47 +173,49 @@ class Lines extends Component {
                             </div>
                         </Card>
                     </Col>
-                    <Col xs={24} sm={24} md={24} lg={17} xl={17} style={{marginLeft: "50px"}}>
+                    <Col xs={24} sm={24} md={24} lg={18} xl={18}>
                         <div style={{display: this.state.showMin === true ? "block" : "none"}}>
-                            <Card style={{width: "100%", minHeight: 640, padding: 10}}>
-                                <div style={{
-                                    width: "30%",
-                                    borderRight: "1px solid #aaa",
-                                    height: "640px",
-                                    float: "left"
-                                }}>
-                                    <p style={{fontSize: "18px", marginTop: "20px"}}>事件编号:{}</p>
-                                    <p style={{fontSize: "18px", marginTop: "20px"}}>事件类型:{meaterType}</p>
-                                    <p style={{fontSize: "18px", marginTop: "20px"}}>报警时间:{time}</p>
-                                    <p style={{fontSize: "18px", marginTop: "20px"}}>紧急程度:{levelType}</p>
-                                    <p style={{fontSize: "18px", marginTop: "20px"}}>位置:{location}</p>
-                                    <p style={{fontSize: "18px", marginTop: "20px"}}>事件流程:</p>
-                                    <p style={{fontSize: "18px", marginTop: "20px"}}>时间编号:{explain}</p>
-
+                            <Card style={{width: "100%", minHeight: 810,}}>
+                                <div style={sectionStyle} >
+                                    <span style={{}} className="oneKeyChange">220KV青海变隧道</span>
                                 </div>
-                                <div style={{width: "65%", marginLeft: "20px", height: "640px", float: "left"}}>
+                                <div style={{width:"65%",height:"728px",float:"left",borderRight:"2px solid #eee"}}>
                                     <img src={require("../../public/onePag.jpg")}
-                                         style={{width: "80%", height: "auto", marginLeft: "25%",}}
-                                         alt=""/>
+                                    style={{width: "70%", height: "auto",display:"block",marginLeft:"15%",marginTop:"100px"}}
+                                    alt=""/>
                                     <div style={{width: "100%", height: "200px", clear: "both",}}>
-                                        <Button
-                                            style={{float: "right", marginTop: "130px", marginRight: "20px"}}
-                                            onClick={this.deletData.bind(this, key)}
-                                            type="primary"
-                                        >异常解除</Button>
-                                        <Button
-                                            style={{float: "right", marginTop: "130px", marginRight: "20px"}}
-                                            onClick={this.showModal}
-                                            type="primary"
-                                        >历史</Button>
+                                    <Button
+                                    style={{float: "right", marginTop: "130px", marginRight: "15%",backgroundColor:"#384042",border:"1px solid #384042"}}
+                                    onClick={this.deletData.bind(this, key)}
+                                    type="primary"
+                                    >异常解除</Button>
+                                    <Button
+                                    style={{float: "left", marginTop: "130px", marginLeft: "15%",backgroundColor:"#fff",color:"#000",border:"1px solid #aaa"}}
+                                    onClick={this.showModal}
+                                    type="primary"
+                                    >历史</Button>
                                     </div>
-
                                 </div>
+                                <div style={{width:"33%",height:"728px",float:"left"}}>
+                                    <p style={{fontSize: "16px", marginTop: "50px",paddingLeft:"100px"}}>事件编号:</p>
+                                    <p style={{fontSize: "16px", marginTop: "20px",paddingLeft:"100px"}}>2018-08-01-001</p>
+                                    <p style={{fontSize: "16px", marginTop: "30px",paddingLeft:"100px"}}>事件类型:</p>
+                                    <p style={{fontSize: "16px", marginTop: "20px",paddingLeft:"100px"}}>{meaterType}</p>
+                                    <p style={{fontSize: "16px", marginTop: "30px",paddingLeft:"100px"}}>报警时间:</p>
+                                    <p style={{fontSize: "16px", marginTop: "20px",paddingLeft:"100px"}}>{time}</p>
+                                    <p style={{fontSize: "16px", marginTop: "30px",paddingLeft:"100px"}}>紧急程度:</p>
+                                    <p style={{fontSize: "16px", marginTop: "20px",paddingLeft:"100px"}}>{levelType}</p>
+                                    <p style={{fontSize: "16px", marginTop: "30px",paddingLeft:"100px"}}>位置:</p>
+                                    <p style={{fontSize: "16px", marginTop: "20px",paddingLeft:"100px"}}>{location}</p>
+                                    <p style={{fontSize: "16px", marginTop: "30px",paddingLeft:"100px"}}>事件流程:</p>
+                                    <p style={{fontSize: "16px", marginTop: "20px",paddingLeft:"100px"}}>{explain}</p>
+                                </div>
+
                             </Card>
                         </div>
-                        <div style={{display: this.state.showMin === true ? "none" : "block"}}>
+                        <div style={{display: this.state.showMin === true ? "none" : "block",}}>
                             <Card style={{
-                                width: "100%", minHeight: 640, padding: 10, display: "flex", justifyContent: "center"
+                                width: "100%", minHeight: 875, display: "flex", justifyContent: "center"
                                 , alignItems: "center",
                             }}>
                                 <h1>异常情况已解除</h1>

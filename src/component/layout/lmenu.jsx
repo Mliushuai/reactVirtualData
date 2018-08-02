@@ -56,27 +56,25 @@ class Lmenus extends Component {
     }
 
     render() {
-        const defaultSelectedKey = process.env.NODE_ENV !== 'production' ? [location.pathname.split('/')[location.pathname.split('/').length - 1] || 'home'] : [location.hash.split('/')[location.hash.split('/').length - 1].split('?')[0] || 'home'];
         return (
             <Menu openKeys={this.state.openKeys} onOpenChange={this.onOpenChange} theme="dark" mode={this.props.mode}
-                  defaultSelectedKeys={defaultSelectedKey}
                   style={{backgroundColor: "#f0f2f5", marginTop: "30px"}}
                   className="layoutLeft"
             >
-                <Menu.Item key="总体状态" onClick={(key) => this.changKey(key,"laptop")}>
-                    <Link to="/home">
+                <Menu.Item key="general" onClick={(key) => this.changKey(key,"laptop")}>
+                    <Link to="/general">
                         <Icon type="laptop" style={{color: "#384042"}}/>
                         <span className="nav-text" style={{color: "#384042"}}>总体状态</span>
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="一键顺控" onClick={(key) => this.changKey(key,"user")}>
-                    <Link to="/home/pendingIndex">
+                    <Link to="/onekey">
                         <Icon type="user" style={{color: "#384042"}}/>
                         <span className="nav-text" style={{color: "#384042"}}>一键顺控</span>
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="异常警报" onClick={(key) => this.changKey(key,"notification")}>
-                    <Link to="/chart/line">
+                    <Link to="/larum">
                         <Icon type="notification" style={{color: "#384042"}}/>
                         {<span className="nav-text" style={{color: "#384042"}}>异常警报</span>}
                     </Link>
@@ -87,13 +85,13 @@ class Lmenus extends Component {
                 {/*<Menu.Item key="icon"><Link to="/general/icon">图标</Link></Menu.Item>*/}
                 {/*</SubMenu>*/}
                 <Menu.Item key="智能巡检" onClick={(key) => this.changKey(key,"user")}>
-                    <Link to="/user">
+                    <Link to="/AIinspect">
                         <Icon type="user" style={{color: "#384042"}}/>
                         <span className="nav-text" style={{color: "#384042"}}>智能巡检</span>
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="事件编制" onClick={(key) => this.changKey(key,"dashboard")}>
-                    <Link to="/general/button">
+                    <Link to="/parameter">
                         <Icon type="dashboard" style={{color: "#384042"}}/>
                         {<span className="nav-text" style={{color: "#384042"}}>事件编制</span>}
                     </Link>
@@ -105,13 +103,13 @@ class Lmenus extends Component {
                 {/*</Link>*/}
                 {/*</Menu.Item>*/}
                 <Menu.Item key="数据分析" onClick={(key) => this.changKey(key,"team")}>
-                    <Link to="/ui/oneui">
+                    <Link to="/data">
                         <Icon type="team" style={{color: "#384042"}}/>
                         <span className="nav-text" style={{color: "#384042"}}>数据分析</span>
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="历史记录" onClick={(key) => this.changKey(key,"notification")}>
-                    <Link to="/adver">
+                    <Link to="/history">
                         <Icon type="notification" style={{color: "#384042"}}/>
                         {<span className="nav-text" style={{color: "#384042"}}>历史记录</span>}
                     </Link>
@@ -121,10 +119,10 @@ class Lmenus extends Component {
                          title={<span><Icon type="setting" style={{color: "#384042"}}/>
                              <span className="nav-text" style={{color: "#384042"}}>系统设置</span></span>}>
                     <Menu.Item key="组织人员管理" onClick={(key) => this.changKey(key)}>
-                        <Link to="/admin/organ" style={{color: "#384042"}}>组织人员管理</Link>
+                        <Link to="/personnel" style={{color: "#384042"}}>组织人员管理</Link>
                     </Menu.Item>
                     <Menu.Item key="权限管理" onClick={(key) => this.changKey(key)}>
-                        <Link to="/admin/juris" style={{color: "#384042"}}>权限管理</Link>
+                        <Link to="/power" style={{color: "#384042"}}>权限管理</Link>
                     </Menu.Item>
                 </SubMenu>
             </Menu>

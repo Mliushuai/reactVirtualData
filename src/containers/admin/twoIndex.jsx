@@ -184,7 +184,6 @@ class Just extends Component {
         const {dataSource,Source,value}=this.state
         return (
             <div style={{width:"100%",height:"800px",backgroundColor:"#fff",marginTop:"20px"}}>
-                <Bcrumb title="权限管理" icon="organs" />
                 <div style={{width:"65%",height:"700px",margin:"0 auto"}}>
                     <div className="leftContent">
                         <Form

@@ -8,6 +8,13 @@ import styles from './style.less';
 const Option = Select.Option;
 const FormItem = Form.Item;
 const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
+import LongBan from '../image/img2.jpg'
+const longBan = {
+    width: "100%",
+    height: "64px",
+    backgroundImage: `url(${LongBan})`,
+    borderBottom:"1px solid #d6e1e4",
+};
 /* 以类的方式创建一个组件 */
 class Advers extends Component {
     constructor(props) {
@@ -35,7 +42,7 @@ class Advers extends Component {
             {title: "类型", dataIndex: "status", key: "status"},
         ];
            children.push(
-               <Col xl={8} lg={24} style={{textAlign: 'right',float:"left"}} key="btn1">
+               <Col xl={8} lg={24} style={{textAlign: 'right',float:"left",marginTop:16}} key="btn1">
                    <FormItem
                        {...formItemLayout}
                        label="时间段:"
@@ -47,7 +54,7 @@ class Advers extends Component {
                </Col>
            )
             children.push(
-                <Col xl={8} lg={24} style={{textAlign: 'center',float:"left"}} key="btn">
+                <Col xl={8} lg={24} style={{textAlign: 'center',float:"left",marginTop:16}} key="btn">
                     <Button type="primary" htmlType="submit">搜索</Button>
                     <Button style={{marginLeft: 8}} onClick={this.handleReset}>
                         清空
@@ -230,13 +237,12 @@ class Advers extends Component {
             action2:"处理人"
         }];
 		return (	
-		<div style={{width:"100%",height:"800px",backgroundColor:"#fff",marginTop:"20px"}}>
-            <Bcrumb title="历史记录" icon="history" />
+		<div style={longBan}>
             <Form
                 className="ant-advanced-search-form"
                 onSubmit={this.handleSearch}
             >
-                <Row gutter={24} style={{marginTop: '15px'}}>
+                <Row>
                     {this.getFields()}
                 </Row>
 

@@ -3,7 +3,7 @@ const Main = {
 	// target: process.env.NODE_ENV !== 'production' ? 'http://admin.sosout.com' : 'http://192.168.2.8:8761', //目标网站
     name: 'Ant Design Admin',
     prefix: 'antdAdmin',
-    footerText: 'AntDesign+React+redux',
+    footerText: 'Ant Design Admin 版权所有 © 2018 由 ASEIT 支持',
     logoSrc: 'https://t.alipayobjects.com/images/rmsweb/T1B9hfXcdvXXXXXXXX.svg',
     logoText: '业务人员',
     needLogin: true,
