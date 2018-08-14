@@ -23,7 +23,7 @@ export class Lfooter extends Component {
 	render() {
 		return (
 			<Footer className="layout-footer">
-	            { Config.footerText }
+	            {/*{ Config.footerText }*/}
 	        </Footer>
 		)
 	}

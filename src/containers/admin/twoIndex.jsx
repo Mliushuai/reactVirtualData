@@ -74,7 +74,7 @@ class Just extends Component {
                         }],
                     })(
                         <Select  style={{ width: 225 }} onChange={this.handleChange}>
-                            <Option value="管理人员">蒙东</Option>
+                            <Option value="管理人员">无锡</Option>
                             <Option value="运检人员">运检一部</Option>
                             <Option value="普通用户">普通用户</Option>
                         </Select>

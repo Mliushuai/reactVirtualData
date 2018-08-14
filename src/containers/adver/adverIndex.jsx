@@ -53,8 +53,13 @@ class Advers extends Component {
                    </FormItem>
                </Col>
            )
+        children.push(
+            <Col xl={4} lg={4} style={{textAlign: 'center',float:"left",marginTop:16,marginLeft:"200px"}} key="input">
+                <Input/>
+            </Col>
+        )
             children.push(
-                <Col xl={8} lg={24} style={{textAlign: 'center',float:"left",marginTop:16}} key="btn">
+                <Col xl={8} lg={24} style={{textAlign: 'left',float:"left",marginTop:16,paddingLeft:"100px"}} key="btn">
                     <Button type="primary" htmlType="submit">搜索</Button>
                     <Button style={{marginLeft: 8}} onClick={this.handleReset}>
                         清空
@@ -178,12 +183,12 @@ class Advers extends Component {
 
 	render() {
         const columns = [{
-            title: '时间编号',
+            title: '事件编号',
             dataIndex: 'name',
             key: 'name',
             render: text => <a href="javascript:;">{text}</a>,
         }, {
-            title: '时间类型',
+            title: '事件类型',
             dataIndex: 'age',
             key: 'age',
         }, {
@@ -210,32 +215,7 @@ class Advers extends Component {
                 }}>查看</Button>
             }
         }];
-        const data = [{
-            key: '1',
-            name: '00000000',
-            age: '油位异常',
-            address: '2016.8.10  12:00',
-            action:'1电站1油表',
-            action1:"已解决",
-            action2:"处理人"
-
-        }, {
-            key: '2',
-            name: '11111111',
-            age: '油位异常',
-            address: '2016.8.10  12:00',
-            action:'1电站1油表',
-            action1:"已解决",
-            action2:"处理人"
-        }, {
-            key: '3',
-            name: '22222222',
-            age: '油位异常',
-            address: '2016.8.10  12:00',
-            action:'1电站1油表',
-            action1:"已解决",
-            action2:"处理人"
-        }];
+        const data = [];
 		return (	
 		<div style={longBan}>
             <Form
@@ -247,7 +227,9 @@ class Advers extends Component {
                 </Row>
 
             </Form>
-            <Table columns={columns} dataSource={data} />
+            <div style={{width:"100%",minHeight:"700px",backgroundColor:"#Fff"}}>
+            <Table columns={columns} dataSource={data} style={{backgroundColor:"#fff"}} />
+            </div>
             <Modal
                 title="历史记录"
                 visible={this.state.visible}

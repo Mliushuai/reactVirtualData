@@ -1,0 +1,66 @@
+.box-index-min {
+    width: 100%;
+    height: auto;
+    padding-left: 34px;
+    list-style-type: none;
+    border-bottom: 1px solid #d4d7da;
+}
+
+.left-min {
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+.pagin-bottom {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    bottom: 4%;
+}
+
+/**
+ * 主标题
+ */
+.box-index-min-tit {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: #0d1a26;
+    width: 100%;
+    height: 46px;
+    padding-right: 30px;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+/**
+ * 二级标题
+ */
+.box-index-min-childTit {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 30px;
+    height: 46px;
+    cursor: pointer;
+    color: #6d7884;
+}
+
+/**
+ * 三级内容
+ */
+.box-index-min-tit-about {
+    flex-basis: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    height: 40px;
+    padding-left: 40px;
+    padding-right: 22px;
+    color: #6d7884;
+}

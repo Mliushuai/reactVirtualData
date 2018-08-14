@@ -11,7 +11,12 @@ import styles from './style/login.less';
 
 import { Spin, Form, Input, Button, message } from 'antd';
 const FormItem = Form.Item;
-
+import loginBackground from './image/背景.jpg';
+import logo from './image/logo.jpg'
+const loginStyle = {
+    backgroundImage: `url(${loginBackground})`,
+    backgroundSize:"100% 100%",
+};
 /* 以类的方式创建一个组件 */
 class Login extends Component {
     constructor(props) {
@@ -81,32 +86,45 @@ class Login extends Component {
 
         const { getFieldDecorator } = this.props.form;
 		return (
-		<div className="login-container">
+		<div className="login-container" style={loginStyle}>
+            <div style={{width:"100%",height:"200px"}}></div>
 			<div className="login-form">
 				<Spin tip="载入中..." spinning={false}>
-					<div className="login-logo">
-				        <img src={Config.logoSrc} />
-				        <span>Ant Design</span>
-				    </div>
 					<Form onSubmit={this.handleSubmit}>
+                        <FormItem hasFeedback>
+                            {getFieldDecorator('title')(
+                                <div className="loginTitle">
+                                  <img  src={logo}/>
+                                    <p>电力运检智能辅助系统</p>
+                                </div>
+                            )}
+                        </FormItem>
 				        <FormItem hasFeedback>
-                            {getFieldDecorator('username', { initialValue: 'sosout', rules: [{ required: true, message: Config.message.usernameInput }, { validator: this.checkUsername }] })(
-                                <Input size="large" placeholder="用户名" maxLength="6" />
+                            {getFieldDecorator('username', {  rules: [{ required: true, message: Config.message.usernameInput }, { validator: this.checkUsername }] })(
+                               <div className="userName">
+                                <Input size="large" placeholder="用户账号或用户邮箱" maxLength="20"  style={{marginTop:"10px"}}/>
+                               </div>
                             )}
 				        </FormItem>
 				        <FormItem hasFeedback>
                             {getFieldDecorator('password', { rules: [{ required: true, message: Config.message.passwordInput }, { validator: this.checkPassword }] })(
-                                <Input size="large" type="password" placeholder="密码" maxLength="6" />
+                                <div className="userName">
+                                <Input size="large" type="password" placeholder="请输入密码" maxLength="6" style={{marginTop:"10px"}}/>
+                                </div>
                             )}
 				        </FormItem>
+                        <FormItem hasFeedback>
+                            {getFieldDecorator('noPassword')(
+                                    <p style={{color:"#bbb",textAlign:"right",margin:"0",padding:"0",marginTop:"-20px"}}>忘记密码</p>
+                            )}
+                        </FormItem>
+
 
                         <FormItem>
-				            <Button type="primary" htmlType="submit" size="large">  登录</Button>
+                            <div className="loginButton">
+				            <Button type="primary" htmlType="submit" size="large" className="goLogin">  登录</Button>
+                            </div>
 				        </FormItem>
-				        <div className="login-account">
-                            <span>账号：sosout</span>
-                            <span>密码：sosout</span>
-				        </div>
 			        </Form>
 		        </Spin>
 			</div>
@@ -118,7 +136,6 @@ class Login extends Component {
 
 // 将 store 中的数据作为 props 绑定到 LoginForm 上
 const mapStateToProps = (state, ownProps) => {
-
     return state
 }
 

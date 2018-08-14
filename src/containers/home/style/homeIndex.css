@@ -1,0 +1,175 @@
+
+.index-r-min {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    width: 100%;
+    height: 800px;
+    overflow: auto;
+    padding: 0 10px 0 0;
+}
+
+.index-four-col {
+    margin-right: 20px;
+    border: 1px solid #d7d9dc;
+    background-color: white;
+}
+
+.index-four-con {
+    width: 100%;
+    height: 380px;
+    padding: 0 38px 0 30px;
+}
+
+.index-tit-min {
+    width: 100%;
+    height: 36px;
+    line-height: 36px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #0d1a26;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.four-card-min {
+    width: 100%;
+    height: 150px;
+    border-radius: 10px;
+}
+state-four-cord{
+    width: 100%;
+    height: auto;
+}
+
+.about-tit {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 26px;
+    padding-left: 10px;
+}
+
+.four-card-ball-four-tit {
+    width: 90%;
+    text-align: center;
+    font-size: 14px;
+    color: #6b7884;
+    margin-top: 10px;
+}
+
+.four-card-ball {
+    width: 10px;
+    height: 10px;
+    background-color: #10a3e7;
+    border-radius: 50%;
+}
+
+.four-card-ball-two {
+    width: 10px;
+    height: 10px;
+    background-color: #f59126;
+    border-radius: 50%;
+}
+
+.four-card-ball-three {
+    width: 10px;
+    height: 10px;
+    background-color: #e410e7;
+    border-radius: 50%;
+}
+
+.four-card-ball-four {
+    width: 10px;
+    height: 10px;
+    background-color: #006e6b;
+    border-radius: 50%;
+}
+
+.four-about-min {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+}
+
+.card-min-tit {
+    font-size: 24px;
+    font-weight: bold;
+    color: #0d1a26;
+    margin-bottom: 6px;
+}
+
+.card-min-child-tit {
+    font-size: 14px;
+    font-weight: bold;
+    color: #0d1a26;
+}
+
+.index-mon-table {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+.index-mon-table-first{
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+.index-mon-table ul {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    height: auto;
+    overflow: auto;
+    display: block;
+}
+.index-mon-table-first ul {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    height: auto;
+    overflow: auto;
+    display: block;
+}
+.index-mon-table ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    padding-right: 20px;
+}
+.index-mon-table-first ul li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    padding-right: 20px;
+}
+.index-mon-table ul li div :first-child{
+    width: 30%;
+    height: auto;
+    color: #0d1a26;
+}
+
+.index-mon-table ul li div:last-child {
+    cursor: pointer;
+    color: #10a3e7
+}
+
+.about-ball {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-right: 6px;
+}

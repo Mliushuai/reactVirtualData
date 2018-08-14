@@ -9,6 +9,7 @@ import { browserHistory } from 'react-router';
 import {bindActionCreators} from 'redux';
 import {changekeyData} from '../../redux/action/changeKeyActions';
 import './style/layout.less'
+import headerLogo from './image/headerLogo.png';
 const SubMenu = Menu.SubMenu;
 const { Header } = Layout;
 
@@ -34,35 +35,38 @@ class Lheaders extends Component {
   	logout= (e) => {
   		// 模拟退出
   		if(e.key == 'logout') {
-	 		Config.removeLocalItem(Config.localKey.userToken);
-	  		this.context.router.push({ 
-				pathname: '/login' 
-			});
+            browserHistory.push('/login')
+	 		// Config.removeLocalItem(Config.localKey.userToken);
+	  		// this.context.router.push({
+			// 	pathname: '/login'
+			// });
   		}
   	}
   	componentDidMount(){
 
-        console.log(this.props,"标题")
+        // console.log(this.props,"标题")
         // browserHistory.push('/home')
     }
 	render() {
 		return (
 			<Header className="layout-header">
-                <span style={{display:"block",color:"#fff",fontSize:"24px",float:"left",width:"230px",lineHeight:"70px",marginLeft:"25px"}}>无锡电力运检系统</span>
+                <img src={headerLogo} />
+                <span>电力运检智能辅助系统</span>
+                <Link to='/general'> <p>待处理事件:&nbsp;&nbsp;{this.props.number}条</p></Link>
                 {/*<Bcrumb icon={this.props.state.changeDataReducer.types} title={this.props.state.changeDataReducer.changeData}/>*/}
-	            <div style={{position:"absolute",top:"0",right:"0",width:"25%",height:"70px"}}>
-                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"  className="AvatarUser" />
-                    <Menu mode="horizontal" onClick={this.logout} className="AvatarRoot">
-                        <SubMenu title={<span>sosout</span>} >
-                            <Menu.Item key="logout" style={{width:"80px"}}>注销</Menu.Item>
-                        </SubMenu>
-                    </Menu>
-                    <Icon type="clock-circle-o" className="AvatarIconBell"/>
-                    <Link to='/admin/organ'><Icon type="setting" className="AvatarIconSetting" /></Link>
-                    <Badge count={this.props.number} className="AvatarIcon">
-                        <Link to='/home'><Icon type="bell" /></Link>
-                    </Badge>
-                </div>
+                {/*<div style={{position:"absolute",top:"0",right:"0",width:"25%",height:"70px"}}>*/}
+                    {/*/!*<Avatar src={require("../../containers/image/user.jpg")} className="AvatarUser" />*!/*/}
+                    {/*/!*<Menu mode="horizontal" onClick={this.logout} className="AvatarRoot">*!/*/}
+                        {/*/!*<SubMenu title={<span>张三</span>} >*!/*/}
+                            {/*/!*<Menu.Item key="logout" style={{width:"80px"}}>注销</Menu.Item>*!/*/}
+                        {/*/!*</SubMenu>*!/*/}
+                    {/*/!*</Menu>*!/*/}
+                    {/*/!*<Icon type="clock-circle-o" className="AvatarIconBell"/>*!/*/}
+                    {/*/!*<Link to='/home'><Icon type="setting" className="AvatarIconSetting" /></Link>*!/*/}
+                    {/*/!*<Badge count={this.props.number} className="AvatarIcon">*!/*/}
+                        {/*/!*<Link to='/home'><Icon type="bell" /></Link>*!/*/}
+                    {/*/!*</Badge>*!/*/}
+                {/*</div>*/}
 	        </Header>
 		)
 	}

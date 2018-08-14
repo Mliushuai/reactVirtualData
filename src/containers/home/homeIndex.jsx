@@ -2,114 +2,24 @@ import React, {Component, PropTypes} from 'react'; // 引入了React和PropTypes
 import pureRender from 'pure-render-decorator';
 import {Router, Route, IndexRoute, browserHistory, History, Link} from 'react-router';
 import {numberSource, loadings} from '../../redux/action/NumberSource'
+import {changekeyData} from '../../redux/action/changeKeyActions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import '../../component/style/RightTitltNav.css'
+import {Icon, Row, Col, Card, Modal, Steps, Button, message, Table, Tree, Input, Spin, Pagination} from 'antd';
 // 公共面包屑
 import {Bcrumb} from '../../component/bcrumb/bcrumb';
-import styles from './style/home.less';
+/**
+ * css样式
+ */
 import "../../public/css/publicStyle.css"
+import '../../component/style/public.less'
 import '../../style/left.less';
 import '../home/style/style.css'
-import {Icon, Row, Col, Card, Modal, Steps, Button, message, Table, Tree, Input, Spin} from 'antd';
+import '../home/style/homeIndex.css'
 import someMethod from '../../containers/home/method'
 import './../image/public.css'
-import BackgroundImage from '../image/img3.jpg';
-import Backgrounds from '../image/img2.jpg';
-
-const sectionStyles = {
-    width: "100%",
-    height: "60px",
-    backgroundImage: `url(${BackgroundImage})`,
-
-};
-const sectionStyle = {
-    width: "100%",
-    height: "80px",
-    float: "left",
-    backgroundImage: `url(${Backgrounds})`,
-    backgroundSize: "100% 100%"
-};
-const Step = Steps.Step;
-const TreeNode = Tree.TreeNode;
-const Search = Input.Search;
-
-/* 以类的方式创建一个组件 */
-
-/**
- * 树结构搜索
- */
-
-function getNowFormatDate() {
-    let date = new Date();
-    let seperator1 = "-";
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let strDate = date.getDate();
-    if (month >= 1 && month <= 9) {
-        month = "0" + month;
-    }
-    if (strDate >= 0 && strDate <= 9) {
-        strDate = "0" + strDate;
-    }
-    let currentdate = year + seperator1 + month + seperator1 + strDate;
-    return currentdate;
-}
-
-const z = 1;
-const gData = [];
-
-const generateData = (_level, _preKey, _tns) => {
-    const tns = _tns || gData;
-    const children = [];
-    tns.push(
-        {
-            title: "清梅变",
-            key: "清梅变",
-            pathsUrl: '/general/button',
-            children: [{title: "电力", key: "电力"}]
-        }, {
-            title: "蠡湖变",
-            key: "蠡湖变",
-            pathsUrl: '/general/button',
-            children: [{title: "清本", key: "清本"}]
-        })
-    if (_level < 0) {
-        return tns;
-    }
-    const level = _level - 1;
-    children.forEach((key, index) => {
-        tns[index].children = [];
-        return generateData(level, key, tns[index].children);
-    });
-};
-generateData(z);
-
-const dataList = [];
-const generateList = data => {
-    for (let i = 0; i < data.length; i++) {
-        const node = data[i];
-        const key = node.key;
-        dataList.push({key, title: key});
-        if (node.children) {
-            generateList(node.children, node.key);
-        }
-    }
-};
-generateList(gData);
-const getParentKey = (key, tree) => {
-    let parentKey;
-    for (let i = 0; i < tree.length; i++) {
-        const node = tree[i];
-        if (node.children) {
-            if (node.children.some(item => item.key === key)) {
-                parentKey = node.key;
-            } else if (getParentKey(key, node.children)) {
-                parentKey = getParentKey(key, node.children);
-            }
-        }
-    }
-    return parentKey;
-};
+import ChartsIndexPie from './ChartsIndexPie'
 
 class Mains extends Component {
     constructor(props) {
@@ -134,7 +44,8 @@ class Mains extends Component {
             autoExpandParent: true,
             showData: currentdate,
             disabled: false,
-
+            changeNav: true,// index列表导航一级标签控制
+            changeNavChild: true// index列表导航二级标签控制
         };
     }
 
@@ -187,200 +98,248 @@ class Mains extends Component {
     LinkHome=()=>{
         browserHistory.push('/general')
     }
+    GoAction=(changeData)=>{
+        const {actions} = this.props;
+        actions.changekeyData(changeData,"")
+    }
+    /**
+     * 一级菜单点击
+     * */
+    navChange = () => {
+        this.setState({
+            changeNav: false
+        })
+    };
+    /**
+     * 一级菜单点击 抬起
+     * */
+    navChangeUp = () => {
+        console.log(this.state.changeNav)
+        if (this.state.changeNav == "false") {
+            console.log("10086")
+        }
+        this.setState({
+            changeNav: true
+        })
+    };
+    /**
+     * 2级菜单点击
+     * */
+    changeNavChild = () => {
+        this.setState({
+            changeNavChild: false
+        })
+    };
+    /**
+     * 2级菜单点击 抬起
+     * */
+    changeNavChildUp = () => {
+        this.setState({
+            changeNavChild: true
+        })
+    }
 
     render() {
         const {searchValue, expandedKeys, autoExpandParent, disableds} = this.state;
-        const loop = data =>
-            data.map(item => {
-                const index = item.title.indexOf(searchValue);
-                const beforeStr = item.title.substr(0, index);
-                const afterStr = item.title.substr(index + searchValue.length);
-                const title =
-                    index > -1 ? (
-                        <Link to={item.pathsUrl} style={{color: "#333"}}>
-                            <span>{beforeStr}<span style={{color: "#f50"}}>{searchValue}</span>{afterStr}</span>
-                        </Link>
-                    ) : (
-                        <span>{item.title}</span>
-                    );
-                if (item.children) {
-                    return (
-                        <TreeNode key={item.key} title={title}>
-                            {loop(item.children)}
-                        </TreeNode>
-                    );
-                }
-                return <TreeNode key={item.key} title={title}/>;
-            });
+        console.log(disableds)
         return (
             <div>
                 <Row>
-                    <Col xs={24} sm={24} md={24} lg={6} xl={6}>
-                        <Card style={{width: "100%", minHeight: 810}}>
-                            <div style={sectionStyles}>
-                                <h3 className="publicTitle">点位列表</h3>
+                    <Bcrumb title="异常警报"/>
+                    <Col xs={24} sm={24} md={24} lg={5} xl={5} className="LeftFloat">
+                        <Card className="contentLeft">
+                            <div className="left-min">
+                                <div>
+                                    <h3 className="Exception">点位点列表</h3>
+                                </div>
+                                <div className="box-index-min">
+                                    {/*主标题*/}
+                                    <div className='box-index-min-tit'>
+                                        <span>220KV青海变隧道</span>
+                                        <Icon type="down"
+                                              onClick={this.navChange}
+                                              style={{display: this.state.changeNav ? "block" : "none"}}
+                                        />
+                                        <Icon type="up"
+                                              onClick={this.navChangeUp}
+                                              style={{display: this.state.changeNav ? "none" : "block"}}
+                                        />
+                                        {/*二级标题*/}
+                                    </div>
+                                    <div style={{display: this.state.changeNav ? "none" : "block"}}>
+                                        <div className='box-index-min-childTit'>
+                                            <span className="box-index-tit-min">#1主变(3点位)</span>
+                                            <Icon type="down"
+                                                  onClick={this.changeNavChild}
+                                                  style={{display: this.state.changeNavChild ? "block" : "none"}}
+                                            />
+                                            <Icon type="up"
+                                                  onClick={this.changeNavChildUp}
+                                                  style={{display: this.state.changeNavChild ? "none" : "block"}}
+                                            />
+                                        </div>
+                                        {/*三级内容*/}
+                                        <div className='box-index-min-about'
+                                             style={{display: this.state.changeNavChild ? "none" : "block"}}>
+                                            <div className='box-index-min-tit-about'>
+                                                <span>#1主变油位监测</span><span style={{color: "#10a3e7"}}>查看</span>
+                                            </div>
+                                            <div className='box-index-min-tit-about'>
+                                                <span>#1主变油位监测</span><span style={{color: "#10a3e7"}}>查看</span>
+                                            </div>
+                                            <div className='box-index-min-tit-about'>
+                                                <span>#1主变油位监测</span><span style={{color: "#10a3e7"}}>查看</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <Search
-                                style={{marginBottom: 8, marginLeft: "20px", marginTop: "25px", width: "90%"}}
-                                placeholder="请输入要搜索的点位"
-                                onChange={this.onChange}
-                            />
-                            <Tree
-                                onExpand={this.onExpand}
-                                expandedKeys={expandedKeys}
-                                autoExpandParent={autoExpandParent}
-                                style={{marginLeft: "16px"}}
-                            >
-                                {loop(gData)}
-                            </Tree>
-                        </Card>
-                    </Col>
-                    <Col xs={24} sm={24} md={24} lg={18} xl={18}>
-                        <Card style={{width: "100%", minHeight: 810}}>
-                            <div style={sectionStyle}>
-                                <span className="publicChange">总体状态</span>
-                            </div>
-                            <div style={{width: "100%", height: "728px", marginTop: "80px"}}>
-                                <div style={{
-                                    width: "50%",
-                                    height: "363px",
-                                    float: "left",
-                                    borderBottom: "2px solid #eee",
-                                    borderRight: "2px solid #eee"
-                                }}>
-                                    <span style={{
-                                        width: "10px",
-                                        height: "10px",
-                                        backgroundColor: "#98d023",
-                                        display: "block",
-                                        float: "left",
-                                        marginTop: "80px",
-                                        marginLeft: "30%"
-                                    }}></span>
-                                    <p style={{
-                                        color: "#000",
-                                        fontSize: "50px",
-                                        marginBottom: "0",
-                                        marginTop: "100px",
-                                        textAlign: "center"
-                                    }}>
-                                        {disableds ? this.props.sourceNumber.numberSource2 === 0 ? "0条" : 1 + "条" : "暂无工票"}
-                                    </p>
-                                    <p style={{fontSize: "20px", margin: "0", textAlign: "center", marginTop: "20px"}}>
-                                        待处理工票</p>
-                                    <Link to='/onekey'>
-                                        <Button style={{
-                                            display: "block", margin: "0 auto",
-                                            marginTop: "35px", width: "150px", height: "40px",
-                                            backgroundColor: "#384042", color: "#fff"
-                                        }}>进入</Button>
-                                    </Link>
-                                </div>
-                                <div style={{
-                                    width: "50%",
-                                    height: "363px",
-                                    float: "left",
-                                    borderBottom: "2px solid #eee"
-                                }}>
-                                    <span style={{
-                                        width: "10px",
-                                        height: "10px",
-                                        backgroundColor: "#e410e7",
-                                        display: "block",
-                                        float: "left",
-                                        marginTop: "80px",
-                                        marginLeft: "30%"
-                                    }}></span>
-                                    <p style={{
-                                        color: "#000",
-                                        fontSize: "50px",
-                                        marginBottom: "0",
-                                        marginTop: "100px",
-                                        textAlign: "center"
-                                    }}>
-                                        {disableds ? this.props.sourceNumber.numberSource3 === 0 ? "0条" : 1 + "条" : "暂无异常"}
-                                    </p>
-                                    <p style={{fontSize: "20px", margin: "0", textAlign: "center", marginTop: "20px"}}>
-                                        环境异常</p>
-                                    <Link to='/larum'>
-                                        <Button style={{
-                                            display: "block", margin: "0 auto",
-                                            marginTop: "35px", width: "150px", height: "40px",
-                                            backgroundColor: "#384042", color: "#fff"
-                                        }}>进入</Button>
-                                    </Link>
-                                </div>
-                                <div style={{
-                                    width: "50%",
-                                    height: "363px",
-                                    float: "left",
-                                    borderRight: "2px solid #eee"
-                                }}>
-                                    <span style={{
-                                        width: "10px",
-                                        height: "10px",
-                                        backgroundColor: "#f13283",
-                                        display: "block",
-                                        float: "left",
-                                        marginTop: "80px",
-                                        marginLeft: "30%"
-                                    }}></span>
-                                    <p style={{
-                                        color: "#000",
-                                        fontSize: "50px",
-                                        marginBottom: "0",
-                                        marginTop: "100px",
-                                        textAlign: "center"
-                                    }}>
-                                        {disableds ? this.props.sourceNumber.numberSource2 === 0 ? "0条" : 0 + "条" : "暂无预警"}
-                                    </p>
-                                    <p style={{fontSize: "20px", margin: "0", textAlign: "center", marginTop: "20px"}}>
-                                        预警信息</p>
-                                    <Link to='/larum'>
-                                        <Button style={{
-                                            display: "block", margin: "0 auto",
-                                            marginTop: "35px", width: "150px", height: "40px",
-                                            backgroundColor: "#384042", color: "#fff"
-                                        }}>进入</Button>
-                                    </Link>
-                                </div>
-                                <div style={{width: "50%", height: "363px", float: "left"}}>
-                                    <span style={{
-                                        width: "10px",
-                                        height: "10px",
-                                        backgroundColor: "#10a3e7",
-                                        display: "block",
-                                        float: "left",
-                                        marginTop: "80px",
-                                        marginLeft: "30%",
-                                        float: "left"
-                                    }}></span>
-                                    <span style={{display: "block", margin: "0 auto", marginTop: "75px"}}>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        当前覆盖200个站点</span>
-                                    <p style={{
-                                        color: "#000",
-                                        fontSize: "50px",
-                                        marginBottom: "0",
-                                        marginTop: "0px",
-                                        textAlign: "center"
-                                    }}>
-                                        进行中
-                                    </p>
-                                    <p style={{fontSize: "20px", margin: "0", textAlign: "center", marginTop: "20px"}}>
-                                        智能巡检</p>
-                                    <Link to='/AIinspect'>
-                                        <Button style={{
-                                            display: "block", margin: "0 auto",
-                                            marginTop: "35px", width: "150px", height: "40px",
-                                            backgroundColor: "#384042", color: "#fff"
-                                        }}>进入</Button>
-                                    </Link>
-                                </div>
+                            <div className="pagin-bottom">
+                                <Pagination size="small" total={200} style={{textAlign: "center"}}/>
+                                <span style={{display: "block", textAlign: "right", marginRight: "34px"}}>共200条</span>
                             </div>
                         </Card>
-                    </Col>
 
+                    </Col>
+                    <Col xs={23} sm={23} md={23} lg={18} xl={18} className="RightFloat"
+                         style={{backgroundColor: "transparent"}}>
+                        <div className="index-r-min">
+                            <Col xs={24} sm={24} md={24} lg={11} xl={11} className="index-four-col">
+                                <div className="index-four-con">
+                                    <div className="index-tit-min">运行状态</div>
+                                    <div className="state-four-cord">
+                                        <Link to='/onekey'>
+                                        <Col xs={24} sm={24} md={12} lg={11} xl={11}
+                                             style={{marginRight: "5%", marginBottom: 20}}>
+                                            <Card className="four-card-min">
+                                                <div className="about-tit">
+                                                    <div className="four-card-ball"></div>
+                                                </div>
+                                                <div className="four-about-min">
+                                                    <div className="card-min-tit">{disableds ? this.props.sourceNumber.numberSource2 === 0 ? "0条" : 1 + "条" : "暂无工票"}</div>
+                                                    <div className="card-min-child-tit">待处理工票</div>
+                                                </div>
+                                            </Card>
+                                        </Col>
+                                        </Link>
+                                        <Link to='/larum'>
+                                        <Col xs={24} sm={24} md={12} lg={11} xl={11}
+                                             style={{marginBottom: 20}}>
+                                            <Card className="four-card-min">
+                                                <div className="about-tit">
+                                                    <div className="four-card-ball-two"></div>
+                                                </div>
+                                                <div className="four-about-min">
+                                                    <div className="card-min-tit">{disableds ? this.props.sourceNumber.numberSource2 === 0 ? "0条" : 0 + "条" : "暂无预警"}</div>
+                                                    <div className="card-min-child-tit">预警信息</div>
+                                                </div>
+                                            </Card>
+                                        </Col>
+                                        </Link>
+                                        <Link to='/larum'>
+                                        <Col xs={24} sm={24} md={12} lg={11} xl={11}
+                                             style={{marginRight: "5%", marginBottom: 20}}>
+                                            <Card className="four-card-min">
+                                                <div className="about-tit">
+                                                    <div className="four-card-ball-three"></div>
+                                                </div>
+                                                <div className="four-about-min">
+                                                    <div className="card-min-tit">{disableds ? this.props.sourceNumber.numberSource2 === 0 ? "0条" : 0 + "条" : "暂无预警"}</div>
+                                                    <div className="card-min-child-tit">环境异常</div>
+                                                </div>
+                                            </Card>
+                                        </Col>
+                                        </Link>
+                                        <Link to='/AIinspect'>
+                                        <Col xs={24} sm={24} md={12} lg={11} xl={11}
+                                             style={{marginBottom: 20}}>
+                                            <Card className="four-card-min">
+                                                <div className="about-tit">
+                                                    <div className="four-card-ball-four"></div>
+                                                    <span className="four-card-ball-four-tit">当前覆盖200点位</span>
+                                                </div>
+                                                <div className="four-about-min">
+                                                    <div className="card-min-tit">进行中</div>
+                                                    <div className="card-min-child-tit">智能巡检</div>
+                                                </div>
+                                            </Card>
+                                        </Col>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={11} xl={11} className="index-four-col">
+                                <div className="index-four-con">
+                                    <div className="index-tit-min">监测状态</div>
+                                    <div className="index-mon-table-first">
+                                        <ul>
+                                            <li>
+                                                <div>辅助</div>
+                                                <div>100点位</div>
+                                                <div style={{color: "#006e6b"}}>
+                                                    <span className="about-ball"
+                                                          style={{backgroundColor: "#006e6b"}}></span>
+                                                    <span>待处理</span>
+                                                   <span>{disableds ? this.props.sourceNumber.numberSource2 === 0 ? "0条" : 1 + "条" : 0+"条"}</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div>辅助</div>
+                                                <div>100点位</div>
+                                                <div style={{color: "#d7dada"}}>
+                                                    <span className="about-ball"
+                                                          style={{backgroundColor: "#d7dada"}}></span>
+                                                    <span>待处理</span>
+                                                    <span>1条</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div>辅助</div>
+                                                <div>100点位</div>
+                                                <div style={{color: "#d7dada"}}>
+                                                    <span className="about-ball"
+                                                          style={{backgroundColor: "#d7dada"}}></span>
+                                                    <span>待处理</span>
+                                                    <span>1条</span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={11} xl={11} className="index-four-col">
+                                <div className="index-four-con">
+                                    <div className="index-tit-min">一个月内处理任务</div>
+                                    <div style={{width:"100%",height:"100%"}}>
+                                        <ChartsIndexPie/>
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={11} xl={11} className="index-four-col">
+                                <div className="index-four-con">
+                                    <div className="index-tit-min">历史异常记录</div>
+                                    <div className="index-mon-table">
+                                        <ul>
+                                            <li>
+                                                <div>2018-06-01-001</div>
+                                                <div>蠡湖变</div>
+                                                <div>异常生物</div>
+                                                <div>已解除</div>
+                                                <div>查看</div>
+                                            </li>
+                                            <li>
+                                                <div>2018-06-01-001</div>
+                                                <div>蠡湖变</div>
+                                                <div>异常生物</div>
+                                                <div>已解除</div>
+                                                <div>查看</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </Col>
+                        </div>
+                    </Col>
                 </Row>
             </div>
         );
@@ -389,16 +348,17 @@ class Mains extends Component {
 
 // 将 state 作为 props 绑定到 Product 上。
 const mapStateToProps = (state, ownProps) => {
-    const {sourceNumber} = state
+    const {sourceNumber, changeDataReducer} = state
     return {
         sourceNumber: sourceNumber,
+        changeData: changeDataReducer,
         state
     }
 }
 
 // 将 action 作为 props 绑定到 Product 上。
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    actions: bindActionCreators({numberSource, loadings}, dispatch)
+    actions: bindActionCreators({numberSource, loadings, changekeyData}, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Mains);

@@ -9,6 +9,7 @@ const longBan = {
     height: "64px",
     backgroundImage: `url(${LongBan})`,
     borderBottom: "1px solid #d6e1e4",
+    backgroundSize:"100% 100%",
     // backgroundRepeat:"repeat-x",
     // backgroundSize:"100%"
 
@@ -53,7 +54,7 @@ class Mains extends Component {
         };
         const children = [];
         children.push(
-            <Col xl={8} lg={24} style={{textAlign: 'right', marginTop: "16px"}} key="btn1">
+            <Col xl={8} lg={24} style={{textAlign: 'right',marginTop:"16px"}} key="btn1">
                 <FormItem
                     {...formItemLayout}
                     label="时间段:"
@@ -383,7 +384,7 @@ class Mains extends Component {
                     </Form>
                 </div>
                 <div>
-                    <div className="chartBox">·
+                    <div className="chartBox" style={{backgroundColor:"#fff"}}>·
                         <div ref="line" style={{width: 700, height: 400}}></div>
                         <div id="main" style={{width: 700, height: 400, marginLeft: 40}}></div>
                         <div ref="lines" style={{width: 700, height: 400}}></div>

@@ -18,11 +18,7 @@ import { Lfooter } from './lfooter';
 import './style/layout.less';
 
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
-const sectionStyle = {
-    width: "100%",
-    height: "100%",
-    backgroundImage: `url(${Background})`
-};
+import layoutUser from "./image/用户.png";
 const { Content, Footer, Sider,Header } = Layout;
 const SubMenu = Menu.SubMenu;
 
@@ -35,7 +31,7 @@ const SubMenu = Menu.SubMenu;
 class Main extends Component {
 	constructor(props) {
 		super(props);
-		const collapsed = Config.localItem('COLLAPSED') == 'YES' ? true : false;
+		const collapsed = false;
 		this.state = {
 			collapsed: collapsed,
     		mode: collapsed ? 'vertical' : 'inline', 
@@ -43,10 +39,10 @@ class Main extends Component {
 		this.timer=null
 	}
 	onCollapse = (collapsed) => {
-		if(collapsed) Config.localItem('COLLAPSED', 'YES'); else Config.localItem('COLLAPSED', 'NO');
+		// if(collapsed) Config.localItem('COLLAPSED', 'YES'); else Config.localItem('COLLAPSED', 'NO');
 	    this.setState({
 	      collapsed,
-	      mode: collapsed ? 'vertical' : 'inline'
+	      mode: 'vertical'
 	    });
 	}
 	toggle = (collapsed) => {
@@ -71,25 +67,26 @@ class Main extends Component {
                          number={this.props.sourceNumber.numberSource1===2&&this.props.sourceNumber.loading||this.props.sourceNumber.numberSource1===1?this.props.sourceNumber.numberSource1:0}
            />
             <Layout>
-                <Sider collapsible
+                <Sider
                        collapsed={this.state.collapsed}
                        onCollapse={this.onCollapse}
-                       style={sectionStyle}
+                       style={{backgroundColor:"#5f6364",width:"200px"}}
                 >
-                    {/*<div className="layout-logo">*/}
-                        {/*<Link to="/home">*/}
-                            {/*<img className="logo-img" src={Config.logoSrc} />*/}
-                            {/*<span className="logo-text">{Config.logoText}</span>*/}
-                        {/*</Link>*/}
-                    {/*</div>*/}
+                    <div className="layout-logo">
+                        <div className="layout-user">
+                            <img src={layoutUser}/>
+                            <span>刘大伟</span>
+                        </div>
+                        <span>系统管理员</span>
+                        <span style={{marginTop:"6px"}}>无锡供电公司某某分局</span>
+                    </div>
                     <Lmenu mode={ this.state.mode } />
-
                 </Sider>
-                <Layout style={{border:"#bac2c4 1px solid"}}>
-                    <Content className="layout-content" style={{borderRight:"#bac2c4 1px solid"}}>
+                <Layout >
+                    <Content className="layout-content" >
                     {this.props.children}
                     </Content>
-                    <Lfooter />
+                    {/*<Lfooter />*/}
                 </Layout>
             </Layout>
 

@@ -9,7 +9,7 @@ const Main = {
     needLogin: true,
 	message: { // 提示信息
 		usernameInput: '请输入用户名',
-        usernameEng: '用户名必须是字母',
+        usernameEng: '用户名必须是字母、数字或邮箱',
 		passwordInput: '请输入密码',
 		loginError: '用户名或者密码错误!'
 	},
@@ -23,7 +23,7 @@ const Main = {
 	 * @returns
 	 */
 	checkEng(str) {
-		var reg = new RegExp(/^[A-Za-z]+$/);
+		var reg = new RegExp(/^[A-Za-z0-9]|\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/);
 		return str && reg.test(str);
 	},
     /**

@@ -1,7 +1,7 @@
 import {CHANGEKEYDATA} from '../../redux/constants/changKeyConstanst'
 
 const changDataSource ={
-    changeData:"总体状态",
+    changeData:"general",
     types:""
 }
 const changeDataReducer =(state=changDataSource,action)=>{

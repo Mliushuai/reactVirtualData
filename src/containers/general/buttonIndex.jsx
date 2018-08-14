@@ -26,14 +26,13 @@ const sectionStyles = {
     width: "100%",
     height: "60px",
     backgroundImage: `url(${BackgroundImage})`,
-borderBottom:"1px solid #d6e1e4"
 };
 const sectionStyle = {
     width: "100%",
     height: "80px",
     backgroundImage: `url(${Backgrounds})`,
-    backgroundSize:"100% 100%",
-    borderBottom:"1px solid #d6e1e4"
+    backgroundSize: "100% 100%",
+    borderBottom: "1px solid #d6e1e4"
 };
 
 
@@ -603,13 +602,14 @@ class Mains extends Component {
         return (
             <div style={{width: "100%", height: "800px", backgroundColor: "#fff"}}>
                 <Row>
-                    <Col xs={24} sm={24} md={24} lg={6} xl={6}>
-                            <div style={sectionStyles}>
-                                <h3 style={{marginLeft:14,paddingTop:14}}>点位列表</h3>
-                            </div>
-                        <div style={{width:"100%",height:680,overflow:"auto"}}>
+                    <Col xs={24} sm={24} md={24} lg={6} xl={6} style={{borderRight: "1px solid #e8e8e8"}}>
+                        <Card style={{width: "100%", minHeight: 810,padding:"0"}}>
+                        <div style={sectionStyles}>
+                            <h3 className="char-tieles">点位列表</h3>
+                        </div>
+                        <div style={{width: "100%", height: 680, overflow: "auto"}}>
                             <Search
-                                style={{marginBottom: 8,width:"90%",marginLeft:"4%",marginTop:10}}
+                                style={{marginBottom: 8, width: "90%", marginLeft: "4%", marginTop: 10}}
                                 placeholder="Search"
                                 onChange={this.onChange}
                             />
@@ -625,75 +625,77 @@ class Mains extends Component {
                                 <Button type="primary" size="large" onClick={this.showModalAdd}>新增</Button>
                             </div>
                         </div>
+                        </Card>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={18} xl={18}>
-                            <div className="test-mins">
-                                <div style={sectionStyle}>
-                                </div>
-                                <div>
-                                    {this.state.nowData.map((item, index) => {
-                                        return (
-                                            <div key={index}>
-                                                <Col {...minLayout} style={{marginRight: 40,marginTop:40,marginLeft:40}}>
-                                                    <div>
-                                                        <img width="100%" src={require("../../public/index.jpg")}
-                                                             alt=""/>
-                                                        <h3><span>{item.work}：{item.location}油位监测点</span></h3>
-                                                        <h3><span>视频编号：</span><span>{item.minVideoCode}</span></h3>
-                                                        <h3><span>设备类型：</span><span>枪机</span></h3>
-                                                        <h3><span>云台预设：</span><span>已预设</span></h3>
-                                                        <h3><span>关联视频：</span><span>{item.minVideo}</span></h3>
-                                                        <h3><span>说明：</span><span>{item.minArray}</span></h3>
-                                                    </div>
-                                                </Col>
-                                                <Col  {...minLayout} style={{marginRight: 40,marginTop:40}}>
-                                                    <div>
-                                                        <EchartGauge
-                                                            min={0}
-                                                            max={100}
-                                                            xLength={10}
-                                                            GaugeSize={100}
-                                                        />
-                                                    </div>
-                                                    <h3><span>检测设备类型：</span><span>{item.workType}设备类型</span></h3>
-                                                    <h3><span>量程：</span><span>0-{item.workPosition}</span></h3>
-                                                    <h3><span>阈值设置：</span><span>&lt;{item.workPosition}</span></h3>
-                                                </Col>
-                                            </div>
-                                        )
-                                    })}
-                                </div>
+                        <div className="test-mins">
+                            <div style={sectionStyle}>
                             </div>
-                            <div className="join-but">
-                                <Button
-                                    type="primary"
-                                    onClick={this.showModalTest}>编辑
-                                </Button>
+                            <div>
+                                {this.state.nowData.map((item, index) => {
+                                    return (
+                                        <div key={index}>
+                                            <Col {...minLayout}
+                                                 style={{marginRight: 40, marginTop: 40, marginLeft: 40}}>
+                                                <div>
+                                                    <img width="100%" src={require('../../public/onePag.jpg')}
+                                                         alt=""/>
+                                                    <h3><span>{item.work}：{item.location}油位监测点</span></h3>
+                                                    <h3><span>视频编号：</span><span>{item.minVideoCode}</span></h3>
+                                                    <h3><span>设备类型：</span><span>枪机</span></h3>
+                                                    <h3><span>云台预设：</span><span>已预设</span></h3>
+                                                    <h3><span>关联视频：</span><span>{item.minVideo}</span></h3>
+                                                    <h3><span>说明：</span><span>{item.minArray}</span></h3>
+                                                </div>
+                                            </Col>
+                                            <Col  {...minLayout} style={{marginRight: 40, marginTop: 40}}>
+                                                <div>
+                                                    <EchartGauge
+                                                        min={0}
+                                                        max={100}
+                                                        xLength={10}
+                                                        GaugeSize={100}
+                                                    />
+                                                </div>
+                                                <h3><span>检测设备类型：</span><span>{item.workType}设备类型</span></h3>
+                                                <h3><span>量程：</span><span>0-{item.workPosition}</span></h3>
+                                                <h3><span>阈值设置：</span><span>&lt;{item.workPosition}</span></h3>
+                                            </Col>
+                                        </div>
+                                    )
+                                })}
                             </div>
-                            <Modal
-                                title="编辑"
-                                visible={this.state.visible}
-                                onOk={this.handleOk}
-                                width={900}
-                                bodyStyle={{height: "500px"}}
-                                onCancel={this.handleCancel}
-                                footer={null}
-                            >
-                                {this.testForm()}
+                        </div>
+                        <div className="join-but">
+                            <Button
+                                type="primary"
+                                onClick={this.showModalTest}>编辑
+                            </Button>
+                        </div>
+                        <Modal
+                            title="编辑"
+                            visible={this.state.visible}
+                            onOk={this.handleOk}
+                            width={900}
+                            bodyStyle={{height: "500px"}}
+                            onCancel={this.handleCancel}
+                            footer={null}
+                        >
+                            {this.testForm()}
 
-                            </Modal>
-                            <Modal
-                                title="编辑"
-                                visible={this.state.visible}
-                                onOk={this.handleOk}
-                                width={900}
-                                bodyStyle={{height: "500px"}}
-                                onCancel={this.handleCancel}
-                                footer={null}
-                            >
-                                {this.testForm()}
+                        </Modal>
+                        <Modal
+                            title="编辑"
+                            visible={this.state.visible}
+                            onOk={this.handleOk}
+                            width={900}
+                            bodyStyle={{height: "500px"}}
+                            onCancel={this.handleCancel}
+                            footer={null}
+                        >
+                            {this.testForm()}
 
-                            </Modal>
+                        </Modal>
 
                     </Col>
 

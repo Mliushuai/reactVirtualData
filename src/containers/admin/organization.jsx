@@ -124,7 +124,8 @@ class AdvancedSearchForm extends Component {
             modalKey: "",
             butVisible: true,
             sourceType: "",
-            record: ""
+            record: "",
+            editVisible:false,
         }
 
     }
@@ -239,7 +240,6 @@ class AdvancedSearchForm extends Component {
     }
 
     handleCancel = (e) => {
-        console.log(e);
         this.handleReset()
         this.setState({
             visible: false,
@@ -416,7 +416,7 @@ class AdvancedSearchForm extends Component {
                             message: '请输入工号!',
                         }],
                     })(
-                        <Input/>
+                        <Input disabled={this.state.editVisible}/>
                     )}
                 </FormItem>
             </Col>
@@ -432,7 +432,7 @@ class AdvancedSearchForm extends Component {
                             message: '请输入姓名!',
                         }],
                     })(
-                        <Input/>
+                        <Input disabled={this.state.editVisible}/>
                     )}
                 </FormItem>
             </Col>
@@ -442,7 +442,7 @@ class AdvancedSearchForm extends Component {
                 <FormItem label={`性别`}
                           {...formItemLayout}
                 >
-                    <RadioGroup onChange={this.onChange} value={this.state.value}>
+                    <RadioGroup onChange={this.onChange} value={this.state.value} disabled={this.state.editVisible}>
                         <Radio value="one">男</Radio>
                         <Radio value="two">女</Radio>
                     </RadioGroup>
@@ -460,7 +460,7 @@ class AdvancedSearchForm extends Component {
                             message: '请输入所属部门!',
                         }],
                     })(
-                        <Input/>
+                        <Input disabled={this.state.editVisible}/>
                     )}
                 </FormItem>
             </Col>
@@ -476,7 +476,7 @@ class AdvancedSearchForm extends Component {
                             message: '选择权限',
                         }],
                     })(
-                        <Select style={{width: 265}} onChange={this.handleChange}>
+                        <Select style={{width: 265}} onChange={this.handleChange} disabled={this.state.editVisible}>
                             <Option value="管理人员">管理人员</Option>
                             <Option value="运检人员">运检人员</Option>
                             <Option value="普通用户">普通用户</Option>
@@ -496,7 +496,7 @@ class AdvancedSearchForm extends Component {
                             message: '请输入手机号!',
                         }],
                     })(
-                        <Input/>
+                        <Input disabled={this.state.editVisible}/>
                     )}
                 </FormItem>
             </Col>
@@ -512,7 +512,7 @@ class AdvancedSearchForm extends Component {
                             message: '请输入邮箱!',
                         }],
                     })(
-                        <Input/>
+                        <Input disabled={this.state.editVisible}/>
                     )}
                 </FormItem>
             </Col>
@@ -523,7 +523,7 @@ class AdvancedSearchForm extends Component {
                 <FormItem label={`账户状态`}
                           {...formItemLayout}
                 >
-                    <RadioGroup onChange={this.onChanges} value={this.state.values}>
+                    <RadioGroup onChange={this.onChanges} value={this.state.values} disabled={this.state.editVisible}>
                         <Radio value="ones">未启动</Radio>
                         <Radio value="twos">启动</Radio>
                     </RadioGroup>
@@ -533,7 +533,7 @@ class AdvancedSearchForm extends Component {
         );
         children.push(
             <Col span={15} key={19}>
-                <p style={{margin: "0 auto", lineHeight: "63px", color: "blue", cursor: "pointer"}}>重置密码</p>
+                <p style={{margin: "0 auto", lineHeight: "63px", color: "blue", cursor: "pointer", display:this.state.editVisible?"none":"block"}}>重置密码</p>
 
             </Col>
         );
@@ -546,6 +546,7 @@ class AdvancedSearchForm extends Component {
     showAdd = (type, record) => {
         if (type === "add") {
             this.setState({
+
                 visibles: true,
                 butVisible: true,
                 peopleAdd: "人员新增",
@@ -554,6 +555,7 @@ class AdvancedSearchForm extends Component {
 
         } else if (type === "edit") {
             this.setState({
+                editVisible:true,
                 visibles: true,
                 peopleAdd: "人员查看",
                 butVisible: false,
@@ -576,7 +578,7 @@ class AdvancedSearchForm extends Component {
             })
         } else if (type === "edit1") {
             this.setState({
-                visibles: true,
+                // visibles: true,
                 butVisible: true,
                 peopleAdd: "人员编辑",
                 sourceType: "edit1",
@@ -603,6 +605,7 @@ class AdvancedSearchForm extends Component {
         this.handleReset()
         this.setState({
             visibles: false,
+            editVisible:false,
         });
 
     }
@@ -611,6 +614,7 @@ class AdvancedSearchForm extends Component {
         this.handleReset()
         this.setState({
             visibles: false,
+            editVisible:false,
         });
 
     }
@@ -623,6 +627,7 @@ class AdvancedSearchForm extends Component {
     }
 
     handleSave = () => {
+
         this.state.data.map((item, index) => {
             if (item.key === this.state.record.key) {
                 this.state.data[item.key - 1] = {
@@ -643,21 +648,23 @@ class AdvancedSearchForm extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            if (!err) {
-                // console.log('Received values of form: ', values);
+            if (err) {
+               return false
+            }else{
+                this.state.data.push({
+                    key: this.state.data.length + 1,
+                    name: this.props.form.getFieldsValue().addNum,
+                    age: this.props.form.getFieldsValue().AddName,
+                    address: this.props.form.getFieldsValue().AddJurisdiction,
+                    phone: this.props.form.getFieldsValue().AddNumber,
+                    email: this.props.form.getFieldsValue().AddEmail,
+                    status: '正常',
+                })
+                this.handleCancels()
+                message.success("新增人员成功!")
             }
         });
-        this.state.data.push({
-            key: this.state.data.length + 1,
-            name: this.props.form.getFieldsValue().addNum,
-            age: this.props.form.getFieldsValue().AddName,
-            address: this.props.form.getFieldsValue().AddJurisdiction,
-            phone: this.props.form.getFieldsValue().AddNumber,
-            email: this.props.form.getFieldsValue().AddEmail,
-            status: '正常',
-        })
-        this.handleCancels()
-        message.success("新增人员成功!")
+
     };
     //树结构编写
     renderTreeNodes = (data) => {
@@ -677,49 +684,49 @@ class AdvancedSearchForm extends Component {
         return (
             <div style={{width: "100%", height: "800px", backgroundColor: "#fff"}}>
                 <Row>
-                    <Col xs={24} sm={24} md={24} lg={6} xl={6}>
-                        {/*<Card style={{width: "100%", minHeight: 810}}>*/}
-                        <div style={sectionStyle}>
-                            <span className="publicChange">组织架构</span>
-                        </div>
-                        <div>
-                            <Icon type="plus-circle"
-                                  style={{
-                                      float: "right",
-                                      color: "blue",
-                                      lineHeight: "50px",
-                                      cursor: "pointer",
-                                      paddingRight: "10px"
-                                  }}
-                                  onClick={this.showModals}
-                            />
-                            <Icon type="form"
-                                  style={{
-                                      float: "right",
-                                      color: "blue",
-                                      lineHeight: "50px",
-                                      cursor: "pointer",
-                                      paddingRight: "10px"
-                                  }}
-                                  onClick={this.showModal}
-                            />
-                        </div>
-                        <div style={{width: "100%", height: "728px", marginTop: "80px"}}>
-                            <Tree
-                                onExpand={this.onExpand}
-                                expandedKeys={this.state.expandedKeys}
-                                autoExpandParent={this.state.autoExpandParent}
-                                checkedKeys={this.state.checkedKeys}
-                                onSelect={this.onSelect}
-                                selectedKeys={this.state.selectedKeys}
+                    {/*<Col xs={24} sm={24} md={24} lg={6} xl={6}>*/}
+                        {/*/!*<Card style={{width: "100%", minHeight: 810}}>*!/*/}
+                        {/*<div style={sectionStyle}>*/}
+                            {/*<span className="publicChange">组织架构</span>*/}
+                        {/*</div>*/}
+                        {/*<div>*/}
+                            {/*<Icon type="plus-circle"*/}
+                                  {/*style={{*/}
+                                      {/*float: "right",*/}
+                                      {/*color: "blue",*/}
+                                      {/*lineHeight: "50px",*/}
+                                      {/*cursor: "pointer",*/}
+                                      {/*paddingRight: "10px"*/}
+                                  {/*}}*/}
+                                  {/*onClick={this.showModals}*/}
+                            {/*/>*/}
+                            {/*<Icon type="form"*/}
+                                  {/*style={{*/}
+                                      {/*float: "right",*/}
+                                      {/*color: "blue",*/}
+                                      {/*lineHeight: "50px",*/}
+                                      {/*cursor: "pointer",*/}
+                                      {/*paddingRight: "10px"*/}
+                                  {/*}}*/}
+                                  {/*onClick={this.showModal}*/}
+                            {/*/>*/}
+                        {/*</div>*/}
+                        {/*<div style={{width: "100%", height: "728px", marginTop: "80px"}}>*/}
+                            {/*<Tree*/}
+                                {/*onExpand={this.onExpand}*/}
+                                {/*expandedKeys={this.state.expandedKeys}*/}
+                                {/*autoExpandParent={this.state.autoExpandParent}*/}
+                                {/*checkedKeys={this.state.checkedKeys}*/}
+                                {/*onSelect={this.onSelect}*/}
+                                {/*selectedKeys={this.state.selectedKeys}*/}
 
-                            >
-                                {this.renderTreeNodes(this.state.treeData)}
-                            </Tree>
-                        </div>
-                        {/*</Card>*/}
-                    </Col>
-                    <Col xs={24} sm={24} md={24} lg={18} xl={18}>
+                            {/*>*/}
+                                {/*{this.renderTreeNodes(this.state.treeData)}*/}
+                            {/*</Tree>*/}
+                        {/*</div>*/}
+                        {/*/!*</Card>*!/*/}
+                    {/*</Col>*/}
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                         {/*<Card style={{width: "100%", minHeight: 810}}>*/}
                         <div style={sectionStyle}>
                             <span className="publicChange">组织人员管理</span>

@@ -1,7 +1,7 @@
 const Source = {
     ticket:[
         {
-            title:"一类工作票",
+            title:"刀闸复核",
             time:"2017-7-25-001",
             key:"1"
         }
