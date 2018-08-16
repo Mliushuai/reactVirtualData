@@ -95,7 +95,7 @@ class Login extends Component {
                             {getFieldDecorator('title')(
                                 <div className="loginTitle">
                                   <img  src={logo}/>
-                                    <p>电力运检智能辅助系统</p>
+                                    <p>系统</p>
                                 </div>
                             )}
                         </FormItem>

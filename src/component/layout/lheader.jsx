@@ -50,8 +50,8 @@ class Lheaders extends Component {
 	render() {
 		return (
 			<Header className="layout-header">
-                <img src={headerLogo} />
-                <span>电力运检智能辅助系统</span>
+                {/*<img src={headerLogo} />*/}
+                <span>系统</span>
                 <Link to='/general'> <p>待处理事件:&nbsp;&nbsp;{this.props.number}条</p></Link>
                 {/*<Bcrumb icon={this.props.state.changeDataReducer.types} title={this.props.state.changeDataReducer.changeData}/>*/}
                 {/*<div style={{position:"absolute",top:"0",right:"0",width:"25%",height:"70px"}}>*/}
