@@ -141,8 +141,16 @@ const preplan = (location, cb) => {
         cb(null, require('../containers/setting/Preplan').default)
     }, 'preplan');
 }
-
-
+/**
+ * 详情
+ * @param location
+ * @param cb
+ */
+const contentDetail = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('../containers/detail/contentDetail').default)
+    }, 'preplan');
+}
 // 登录验证
 const requireAuth = (nextState, replace) => {
     // let token = (new Date()).getTime() - Config.localItem('USER_AUTHORIZATION');
@@ -163,12 +171,12 @@ const RouteConfig = (
             <Route path="/onekey" getComponent={onekey} onEnter={requireAuth}/>
             <Route path="/larum" getComponent={larum} onEnter={requireAuth}/>
             <Route path="/AIinspect" getComponent={AIinspect} onEnter={requireAuth}/>
+            <Route path="/contentDetail" getComponent={contentDetail} onEnter={requireAuth}/>
             <Route path="/parameter" getComponent={parameter} onEnter={requireAuth}/>
             <Route path="/data" getComponent={data} onEnter={requireAuth}/>
             <Route path="/history" getComponent={history} onEnter={requireAuth}/>
             <Route path="/personnel" getComponent={personnel} onEnter={requireAuth}/>
             <Route path="/power" getComponent={power} onEnter={requireAuth}/>
-
             <Route path="/home/AbnormalEquipment" getComponent={AbnormalEquipment} onEnter={requireAuth}/>
             <Route path="/home/EarlyWarning" getComponent={EarlyWarning} onEnter={requireAuth}/>
             <Route path="/charts/FireOut/FireOut" getComponent={FireOut} onEnter={requireAuth}/>

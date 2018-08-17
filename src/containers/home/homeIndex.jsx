@@ -5,10 +5,11 @@ import {numberSource, loadings} from '../../redux/action/NumberSource'
 import {changekeyData} from '../../redux/action/changeKeyActions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import '../../component/style/RightTitltNav.css'
 import {Icon, Row, Col, Card, Modal, Steps, Button, message, Table, Tree, Input, Spin, Pagination} from 'antd';
+import RirhtTitleNav from '../../publicModule/RirhtTitleNav'
 // 公共面包屑
 import {Bcrumb} from '../../component/bcrumb/bcrumb';
+import Console from '../../containers/consoleControl/ConsoleControl'
 /**
  * css样式
  */
@@ -20,7 +21,6 @@ import '../home/style/homeIndex.css'
 import someMethod from '../../containers/home/method'
 import './../image/public.css'
 import ChartsIndexPie from './ChartsIndexPie'
-
 class Mains extends Component {
     constructor(props) {
         super(props);
@@ -102,113 +102,33 @@ class Mains extends Component {
         const {actions} = this.props;
         actions.changekeyData(changeData,"")
     }
-    /**
-     * 一级菜单点击
-     * */
-    navChange = () => {
-        this.setState({
-            changeNav: false
-        })
-    };
-    /**
-     * 一级菜单点击 抬起
-     * */
-    navChangeUp = () => {
-        console.log(this.state.changeNav)
-        if (this.state.changeNav == "false") {
-            console.log("10086")
-        }
-        this.setState({
-            changeNav: true
-        })
-    };
-    /**
-     * 2级菜单点击
-     * */
-    changeNavChild = () => {
-        this.setState({
-            changeNavChild: false
-        })
-    };
-    /**
-     * 2级菜单点击 抬起
-     * */
-    changeNavChildUp = () => {
-        this.setState({
-            changeNavChild: true
-        })
-    }
-
     render() {
         const {searchValue, expandedKeys, autoExpandParent, disableds} = this.state;
-        console.log(disableds)
         return (
             <div>
                 <Row>
                     <Bcrumb title="异常警报"/>
                     <Col xs={24} sm={24} md={24} lg={5} xl={5} className="LeftFloat">
                         <Card className="contentLeft">
-                            <div className="left-min">
-                                <div>
-                                    <h3 className="Exception">点位点列表</h3>
-                                </div>
-                                <div className="box-index-min">
-                                    {/*主标题*/}
-                                    <div className='box-index-min-tit'>
-                                        <span>220KV青海变隧道</span>
-                                        <Icon type="down"
-                                              onClick={this.navChange}
-                                              style={{display: this.state.changeNav ? "block" : "none"}}
-                                        />
-                                        <Icon type="up"
-                                              onClick={this.navChangeUp}
-                                              style={{display: this.state.changeNav ? "none" : "block"}}
-                                        />
-                                        {/*二级标题*/}
-                                    </div>
-                                    <div style={{display: this.state.changeNav ? "none" : "block"}}>
-                                        <div className='box-index-min-childTit'>
-                                            <span className="box-index-tit-min">#1主变(3点位)</span>
-                                            <Icon type="down"
-                                                  onClick={this.changeNavChild}
-                                                  style={{display: this.state.changeNavChild ? "block" : "none"}}
-                                            />
-                                            <Icon type="up"
-                                                  onClick={this.changeNavChildUp}
-                                                  style={{display: this.state.changeNavChild ? "none" : "block"}}
-                                            />
-                                        </div>
-                                        {/*三级内容*/}
-                                        <div className='box-index-min-about'
-                                             style={{display: this.state.changeNavChild ? "none" : "block"}}>
-                                            <div className='box-index-min-tit-about'>
-                                                <span>#1主变油位监测</span><span style={{color: "#10a3e7"}}>查看</span>
-                                            </div>
-                                            <div className='box-index-min-tit-about'>
-                                                <span>#1主变油位监测</span><span style={{color: "#10a3e7"}}>查看</span>
-                                            </div>
-                                            <div className='box-index-min-tit-about'>
-                                                <span>#1主变油位监测</span><span style={{color: "#10a3e7"}}>查看</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="pagin-bottom">
-                                <Pagination size="small" total={200} style={{textAlign: "center"}}/>
-                                <span style={{display: "block", textAlign: "right", marginRight: "34px"}}>共200条</span>
-                            </div>
+                           <RirhtTitleNav
+                               title={"点位点列表"}
+                           />
+                            {/*<div className="pagin-bottom">*/}
+                                {/*<Pagination size="small" total={200} style={{textAlign: "center"}}/>*/}
+                            {/*</div>*/}
                         </Card>
 
                     </Col>
-                    <Col xs={23} sm={23} md={23} lg={18} xl={18} className="RightFloat"
+                    <Col xs={24} sm={24} md={24} lg={18} xl={18} className="RightFloat"
                          style={{backgroundColor: "transparent"}}>
                         <div className="index-r-min">
                             <Col xs={24} sm={24} md={24} lg={11} xl={11} className="index-four-col">
                                 <div className="index-four-con">
                                     <div className="index-tit-min">运行状态</div>
                                     <div className="state-four-cord">
-                                        <Link to='/onekey'>
+                                        <Link to='/onekey'
+                                              onClick={()=>this.GoAction('onekey')}
+                                        >
                                         <Col xs={24} sm={24} md={12} lg={11} xl={11}
                                              style={{marginRight: "5%", marginBottom: 20}}>
                                             <Card className="four-card-min">
@@ -222,7 +142,8 @@ class Mains extends Component {
                                             </Card>
                                         </Col>
                                         </Link>
-                                        <Link to='/larum'>
+                                        <Link to='/larum'
+                                              onClick={()=>this.GoAction('larum')}>
                                         <Col xs={24} sm={24} md={12} lg={11} xl={11}
                                              style={{marginBottom: 20}}>
                                             <Card className="four-card-min">
@@ -230,13 +151,14 @@ class Mains extends Component {
                                                     <div className="four-card-ball-two"></div>
                                                 </div>
                                                 <div className="four-about-min">
-                                                    <div className="card-min-tit">{disableds ? this.props.sourceNumber.numberSource2 === 0 ? "0条" : 0 + "条" : "暂无预警"}</div>
+                                                    <div className="card-min-tit">{disableds ? this.props.sourceNumber.numberSource3 === 0 ? "0条" : 1 + "条" : "暂无预警"}</div>
                                                     <div className="card-min-child-tit">预警信息</div>
                                                 </div>
                                             </Card>
                                         </Col>
                                         </Link>
-                                        <Link to='/larum'>
+                                        <Link to='/larum'
+                                              onClick={()=>this.GoAction('larum')}>
                                         <Col xs={24} sm={24} md={12} lg={11} xl={11}
                                              style={{marginRight: "5%", marginBottom: 20}}>
                                             <Card className="four-card-min">
@@ -250,7 +172,8 @@ class Mains extends Component {
                                             </Card>
                                         </Col>
                                         </Link>
-                                        <Link to='/AIinspect'>
+                                        <Link to='/AIinspect'
+                                              onClick={()=>this.GoAction('AIinspect')}>
                                         <Col xs={24} sm={24} md={12} lg={11} xl={11}
                                              style={{marginBottom: 20}}>
                                             <Card className="four-card-min">
@@ -268,14 +191,15 @@ class Mains extends Component {
                                     </div>
                                 </div>
                             </Col>
+                            <div style={{width:"2%",height:"380px"}}></div>
                             <Col xs={24} sm={24} md={24} lg={11} xl={11} className="index-four-col">
                                 <div className="index-four-con">
                                     <div className="index-tit-min">监测状态</div>
                                     <div className="index-mon-table-first">
                                         <ul>
                                             <li>
-                                                <div>辅助</div>
-                                                <div>100点位</div>
+                                                <div>辅助调控</div>
+                                                <div></div>
                                                 <div style={{color: "#006e6b"}}>
                                                     <span className="about-ball"
                                                           style={{backgroundColor: "#006e6b"}}></span>
@@ -284,7 +208,17 @@ class Mains extends Component {
                                                 </div>
                                             </li>
                                             <li>
-                                                <div>辅助</div>
+                                                <div>单人操作监护</div>
+                                                <div></div>
+                                                <div style={{color: "#d7dada"}}>
+                                                    <span className="about-ball"
+                                                          style={{backgroundColor: "#d7dada"}}></span>
+                                                    <span>待处理</span>
+                                                    <span>1条</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div>现场作业管控</div>
                                                 <div>100点位</div>
                                                 <div style={{color: "#d7dada"}}>
                                                     <span className="about-ball"
@@ -294,13 +228,53 @@ class Mains extends Component {
                                                 </div>
                                             </li>
                                             <li>
-                                                <div>辅助</div>
+                                                <div>设备智能监测</div>
                                                 <div>100点位</div>
                                                 <div style={{color: "#d7dada"}}>
                                                     <span className="about-ball"
                                                           style={{backgroundColor: "#d7dada"}}></span>
                                                     <span>待处理</span>
-                                                    <span>1条</span>
+                                                    <span>0条</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div>站内外环境监测</div>
+                                                <div>100点位</div>
+                                                <div style={{color: "#d7dada"}}>
+                                                    <span className="about-ball"
+                                                          style={{backgroundColor: "#d7dada"}}></span>
+                                                    <span>待处理</span>
+                                                    <span>0条</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div>输电线路监测</div>
+                                                <div>100点位西南1副点位</div>
+                                                <div style={{color: "#d7dada"}}>
+                                                    <span className="about-ball"
+                                                          style={{backgroundColor: "#d7dada"}}></span>
+                                                    <span>待处理</span>
+                                                    <span>0条</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div>危险源点防外破</div>
+                                                <div>100点位</div>
+                                                <div style={{color: "#d7dada"}}>
+                                                    <span className="about-ball"
+                                                          style={{backgroundColor: "#d7dada"}}></span>
+                                                    <span>已暂停：2  进行中：98</span>
+                                                    <span>0条</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div>危险源点防外破</div>
+                                                <div>100点位</div>
+                                                <div style={{color: "#d7dada"}}>
+                                                    <span className="about-ball"
+                                                          style={{backgroundColor: "#d7dada"}}></span>
+                                                    <span>已暂停：2  进行中：98</span>
+                                                    <span>0条</span>
                                                 </div>
                                             </li>
                                         </ul>
@@ -310,11 +284,12 @@ class Mains extends Component {
                             <Col xs={24} sm={24} md={24} lg={11} xl={11} className="index-four-col">
                                 <div className="index-four-con">
                                     <div className="index-tit-min">一个月内处理任务</div>
-                                    <div style={{width:"100%",height:"100%"}}>
+                                    <div style={{width:"100%",height:"89%"}}>
                                         <ChartsIndexPie/>
                                     </div>
                                 </div>
                             </Col>
+                            <div style={{width:"2%",height:"380px"}}></div>
                             <Col xs={24} sm={24} md={24} lg={11} xl={11} className="index-four-col">
                                 <div className="index-four-con">
                                     <div className="index-tit-min">历史异常记录</div>

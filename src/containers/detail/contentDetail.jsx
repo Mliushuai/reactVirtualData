@@ -1,41 +1,64 @@
 import React, {Component, PropTypes} from 'react'; // 引入了React和PropTypes
-import {is, fromJS} from 'immutable';
-import {Icon, Row, Col, Card, Modal, Steps, Button, message, Table,Pagination,Dropdown,Menu } from 'antd';
-import "./style.css"
-import { numberSource }from '../../redux/action/NumberSource'
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-//公共样式
-import '../../component/style/public.less'
+import {
+    Form,
+    Icon,
+    Row,
+    Col,
+    Card,
+    Modal,
+    Steps,
+    Button,
+    message,
+    Table,
+    Tree,
+    Input,
+    Spin,
+    Pagination,
+    Dropdown, Menu
+} from 'antd';
+import RirhtTitleNav from '../../publicModule/RirhtTitleNav'
+// 公共面包屑
 import {Bcrumb} from '../../component/bcrumb/bcrumb';
+/**
+ * css样式
+ */
+import "../../public/css/publicStyle.css"
+import '../../component/style/public.less'
+import '../../style/left.less';
 import '../home/style/style.css'
-import LineCharts from '../charts/LineCharts'
-//引入的图片
-import level from '../../public/onePag.jpg'
+import '../home/style/homeIndex.css'
+import './../image/public.css'
+
 //放大
-import enlarge from './image/放大.png'
-import enlarge1 from './image/放大2.png'
+import enlarge from '../../containers/charts/image/放大.png'
+import enlarge1 from '../../containers/charts/image/放大2.png'
 //缩小
-import narrow from './image/缩小.png'
-import narrow1 from './image/缩小2.png'
+import narrow from '../../containers/charts/image/缩小.png'
+import narrow1 from '../../containers/charts/image/缩小2.png'
 //拉近焦距
-import zoom from './image/拉近焦距.png'
-import zoom1 from './image/拉近焦距2.png'
+import zoom from '../../containers/charts/image/拉近焦距.png'
+import zoom1 from '../../containers/charts/image/拉近焦距2.png'
 //后退焦距
-import Backs from './image/后退焦距.png'
-import Backs1 from './image/后退焦距2.png'
+import Backs from '../../containers/charts/image/后退焦距.png'
+import Backs1 from '../../containers/charts/image/后退焦距2.png'
 //左旋转
-import handed from './image/左旋.png'
-import handed1 from './image/左旋2.png'
+import handed from '../../containers/charts/image/左旋.png'
+import handed1 from '../../containers/charts/image/左旋2.png'
 //右旋转
-import rotation from './image/右旋.png'
-import rotation1 from './image/右旋2.png'
+import rotation from '../../containers/charts/image/右旋.png'
+import rotation1 from '../../containers/charts/image/右旋2.png'
 //光圈放大
-import amplification from './image/光圈放大.png'
-import amplification1 from './image/光圈放大2.png'
+import amplification from '../../containers/charts/image/光圈放大.png'
+import amplification1 from '../../containers/charts/image/光圈放大2.png'
 //光圈缩小
-import reduction from './image/光圈缩小.png'
-import reduction1 from './image/光圈缩小2.png'
+import reduction from '../../containers/charts/image/光圈缩小.png'
+import reduction1 from '../../containers/charts/image/光圈缩小2.png'
+import {bindActionCreators} from "redux";
+import {numberSource} from "../../redux/action/NumberSource";
+import {connect} from "react-redux";
+import level from "../../public/onePag.jpg";
+import LineCharts from "../charts/LineCharts";
+import {Link} from "react-router";
 /* 以类的方式创建一个组件 */
 const columns = [{
     key: "1",
@@ -49,8 +72,9 @@ const columns = [{
 ];
 
 
-class Lines extends Component {
 
+/* 以类的方式创建一个组件 */
+class contentDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -367,7 +391,11 @@ class Lines extends Component {
         }
 
     }
-
+    GoAction=(changeData)=>{
+        console.log(changeData)
+        const {actions} = this.props;
+        actions.changekeyData(changeData,"")
+    };
     render() {
         const {dataSource, code, time, meaterType, levelType, location, explain, key,
             upperLeft,upper,upperRight,Left,Right,DownLeft,Down,DownRight,ZeroCame
@@ -380,40 +408,23 @@ class Lines extends Component {
             </Menu>
         );
         return (
-            <div >
-                <Row >
-                    <Bcrumb title="异常警报"/>
+            <div>
+                <Row>
+                    <div className="bread-crumb ant-breadcrumb">
+                        <Link to="/home"><span  style={{fontWeight:"bold",color:"#0d1026"}}>主页&nbsp;/&nbsp;</span></Link>
+                        <Link to="/AIinspect"><span  style={{fontWeight:"bold",color:"#0d1026"}}>智能巡检&nbsp;/&nbsp;</span></Link>
+                        <span>点位详情</span>
+                    </div>
                     <Col xs={24} sm={24} md={24} lg={5} xl={5} className="LeftFloat">
-                        <Card className="contentLeft">
-                            <div >
-                                <h3 className="Exception">异常列表</h3>
-                            </div>
-                            <div  style={{display: this.state.showMin === true ? "block" : "none"}}>
-                                {
-                                    dataSource.map((item, index) => {
-                                        return <div
-                                            key={index}
-                                            className="LeftTitle"
-                                        >
-                                            <span style={{width: "50%", textAlign: "left", cursor: "pointer",lineHeight:"45px",paddingLeft:"34px"}}
-                                                  onClick={this.ListSource.bind(this, item.key)}>{item.title}</span><span
-                                            style={{display:"block",width: "50%", float:"right",lineHeight:"45px",textAlign:"right",paddingRight:"34px"}}>{item.name}</span>
-                                            <Pagination size="small" total={200}  style={{textAlign:"center",marginTop:"600px"}} />
-                                            {/*<span style={{display:"block",textAlign:"right",marginRight:"34px"}}>共200条</span>*/}
-                                        </div>
-                                    })
-                                }
-
-                            </div>
-                            <div style={{display: this.state.showMin === true ? "none" : "block"}}>
-                                <Card style={{
-                                    width: "100%", minHeight: 810, display: "flex", justifyContent: "center"
-                                    , alignItems: "center",
-                                }}>
-                                    <h1>异常情况已解除</h1>
-                                </Card>
+                        <Card className="contentLeft" style={{padding:0}}>
+                            <RirhtTitleNav
+                                title={"点位列表"}
+                            />
+                            <div className="pagin-bottom">
+                                <Pagination size="small" total={200} style={{textAlign: "center"}}/>
                             </div>
                         </Card>
+
                     </Col>
                     <Col xs={23} sm={23} md={23} lg={18} xl={18} className="RightFloat">
                         <div style={{display: this.state.showMin === true ? "block" : "none"}}>
@@ -506,30 +517,30 @@ class Lines extends Component {
                                             <span className="FontImage">拉近</span>
                                             <span className="FontImage">光圈</span>
                                             <span
-                                                  ref="narrow"
-                                                  onMouseDown={()=>this.onMouseDowns("narrow")}
-                                                  onMouseUp={()=>this.onMouseUps("narrow")}
+                                                ref="narrow"
+                                                onMouseDown={()=>this.onMouseDowns("narrow")}
+                                                onMouseUp={()=>this.onMouseUps("narrow")}
                                             > <img src={narrow} style={{display:this.state.narrow?"none":"block"}} className="enlarge"/>
                                             <img src={narrow1} style={{display:this.state.narrow?"block":"none"}} className="enlarge"/>
                                             </span>
                                             <span
-                                                  ref="rotation"
-                                                  onMouseDown={()=>this.onMouseDowns("rotation")}
-                                                  onMouseUp={()=>this.onMouseUps("rotation")}
+                                                ref="rotation"
+                                                onMouseDown={()=>this.onMouseDowns("rotation")}
+                                                onMouseUp={()=>this.onMouseUps("rotation")}
                                             ><img src={rotation} style={{display:this.state.rotation?"none":"block"}} className="enlarge"/>
                                             <img src={rotation1} style={{display:this.state.rotation?"block":"none"}} className="enlarge"/>
                                             </span>
                                             <span
-                                                  ref="Backs"
-                                                  onMouseDown={()=>this.onMouseDowns("Backs")}
-                                                  onMouseUp={()=>this.onMouseUps("Backs")}
+                                                ref="Backs"
+                                                onMouseDown={()=>this.onMouseDowns("Backs")}
+                                                onMouseUp={()=>this.onMouseUps("Backs")}
                                             ><img src={Backs} style={{display:this.state.Backs?"none":"block"}} className="enlarge"/>
                                             <img src={Backs1} style={{display:this.state.Backs?"block":"none"}} className="enlarge"/>
                                             </span>
                                             <span
-                                                  ref="reduction"
-                                                  onMouseDown={()=>this.onMouseDowns("reduction")}
-                                                  onMouseUp={()=>this.onMouseUps("reduction")}
+                                                ref="reduction"
+                                                onMouseDown={()=>this.onMouseDowns("reduction")}
+                                                onMouseUp={()=>this.onMouseUps("reduction")}
                                             ><img src={reduction} style={{display:this.state.reduction?"none":"block"}} className="enlarge"/>
                                             <img src={reduction1} style={{display:this.state.reduction?"block":"none"}} className="enlarge"/>
                                             </span>
@@ -537,9 +548,7 @@ class Lines extends Component {
                                             <span className="FontImage">右旋转</span>
                                             <span className="FontImage">后退</span>
                                             <span className="FontImage">光圈</span>
-
                                         </div>
-
                                     </div>
                                 </div>
                                 <div className="CameraAction">
@@ -572,30 +581,30 @@ class Lines extends Component {
                                     >异常解除</Button>
                                 </div>
                                 {/*<div style={{width:"65%",height:"728px",float:"left",borderRight:"2px solid #eee"}}>*/}
-                                    {/*<img src={require("../../public/onePag.jpg")}*/}
-                                    {/*style={{width: "70%", height: "auto",display:"block",marginLeft:"15%",marginTop:"100px"}}*/}
-                                    {/*alt=""/>*/}
-                                    {/*<div style={{width: "100%", height: "200px", clear: "both",}}>*/}
+                                {/*<img src={require("../../public/onePag.jpg")}*/}
+                                {/*style={{width: "70%", height: "auto",display:"block",marginLeft:"15%",marginTop:"100px"}}*/}
+                                {/*alt=""/>*/}
+                                {/*<div style={{width: "100%", height: "200px", clear: "both",}}>*/}
 
-                                    {/*style={{float: "left", marginTop: "130px", marginLeft: "15%",backgroundColor:"#fff",color:"#000",border:"1px solid #aaa"}}*/}
-                                    {/*onClick={this.showModal}*/}
-                                    {/*type="primary"*/}
-                                    {/*>历史</Button>*/}
-                                    {/*</div>*/}
+                                {/*style={{float: "left", marginTop: "130px", marginLeft: "15%",backgroundColor:"#fff",color:"#000",border:"1px solid #aaa"}}*/}
+                                {/*onClick={this.showModal}*/}
+                                {/*type="primary"*/}
+                                {/*>历史</Button>*/}
+                                {/*</div>*/}
                                 {/*</div>*/}
                                 {/*<div style={{width:"33%",height:"728px",float:"left"}}>*/}
-                                    {/*<p style={{fontSize: "16px", marginTop: "50px",paddingLeft:"100px"}}>事件编号:</p>*/}
-                                    {/*<p style={{fontSize: "16px", marginTop: "20px",paddingLeft:"100px"}}>2018-08-01-001</p>*/}
-                                    {/*<p style={{fontSize: "16px", marginTop: "30px",paddingLeft:"100px"}}>事件类型:</p>*/}
-                                    {/*<p style={{fontSize: "16px", marginTop: "20px",paddingLeft:"100px"}}>{meaterType}</p>*/}
-                                    {/*<p style={{fontSize: "16px", marginTop: "30px",paddingLeft:"100px"}}>报警时间:</p>*/}
-                                    {/*<p style={{fontSize: "16px", marginTop: "20px",paddingLeft:"100px"}}>{time}</p>*/}
-                                    {/*<p style={{fontSize: "16px", marginTop: "30px",paddingLeft:"100px"}}>紧急程度:</p>*/}
-                                    {/*<p style={{fontSize: "16px", marginTop: "20px",paddingLeft:"100px"}}>{levelType}</p>*/}
-                                    {/*<p style={{fontSize: "16px", marginTop: "30px",paddingLeft:"100px"}}>位置:</p>*/}
-                                    {/*<p style={{fontSize: "16px", marginTop: "20px",paddingLeft:"100px"}}>{location}</p>*/}
-                                    {/*<p style={{fontSize: "16px", marginTop: "30px",paddingLeft:"100px"}}>事件流程:</p>*/}
-                                    {/*<p style={{fontSize: "16px", marginTop: "20px",paddingLeft:"100px"}}>{explain}</p>*/}
+                                {/*<p style={{fontSize: "16px", marginTop: "50px",paddingLeft:"100px"}}>事件编号:</p>*/}
+                                {/*<p style={{fontSize: "16px", marginTop: "20px",paddingLeft:"100px"}}>2018-08-01-001</p>*/}
+                                {/*<p style={{fontSize: "16px", marginTop: "30px",paddingLeft:"100px"}}>事件类型:</p>*/}
+                                {/*<p style={{fontSize: "16px", marginTop: "20px",paddingLeft:"100px"}}>{meaterType}</p>*/}
+                                {/*<p style={{fontSize: "16px", marginTop: "30px",paddingLeft:"100px"}}>报警时间:</p>*/}
+                                {/*<p style={{fontSize: "16px", marginTop: "20px",paddingLeft:"100px"}}>{time}</p>*/}
+                                {/*<p style={{fontSize: "16px", marginTop: "30px",paddingLeft:"100px"}}>紧急程度:</p>*/}
+                                {/*<p style={{fontSize: "16px", marginTop: "20px",paddingLeft:"100px"}}>{levelType}</p>*/}
+                                {/*<p style={{fontSize: "16px", marginTop: "30px",paddingLeft:"100px"}}>位置:</p>*/}
+                                {/*<p style={{fontSize: "16px", marginTop: "20px",paddingLeft:"100px"}}>{location}</p>*/}
+                                {/*<p style={{fontSize: "16px", marginTop: "30px",paddingLeft:"100px"}}>事件流程:</p>*/}
+                                {/*<p style={{fontSize: "16px", marginTop: "20px",paddingLeft:"100px"}}>{explain}</p>*/}
                                 {/*</div>*/}
 
                             </Card>
@@ -635,7 +644,9 @@ class Lines extends Component {
             </div>
         );
     }
+
 }
+
 const mapStateToProps = (state, ownProps) => {
     const {sourceNumber} =state
     return {
@@ -648,6 +659,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     actions: bindActionCreators({numberSource }, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Lines);
+export default connect(mapStateToProps, mapDispatchToProps)(contentDetail);
+// const contentDetail = Form.create()(contentDetails);
 
+// export default contentDetail;
 

@@ -78,7 +78,7 @@ class Main extends Component {
                             <span>刘大伟</span>
                         </div>
                         <span>系统管理员</span>
-                        <span style={{marginTop:"6px"}}>无锡供电公司某某分局</span>
+                        <span style={{marginTop:"6px"}}>XXXX公司XXXX分公司</span>
                     </div>
                     <Lmenu mode={ this.state.mode } />
                 </Sider>

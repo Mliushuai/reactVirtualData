@@ -2,10 +2,15 @@ import React, {Component, PropTypes} from 'react'; // 引入了React和PropTypes
 import {connect} from 'react-redux';
 import {is, fromJS} from 'immutable';
 import Config from '../../config/index';
-import {Icon, Row, Col, Card, Button, Modal, Menu, Dropdown, message} from 'antd';
+import {Icon, Row, Col, Card, Button, Modal, Menu, Dropdown, message, Pagination, Form, Select} from 'antd';
 import {Tree, Input} from 'antd';
 
 import {Router, Route, IndexRoute, browserHistory, Link} from 'react-router';
+//引入公共样式
+import '../../component/style/public.less'
+import RirhtTitleNav from '../../publicModule/RirhtTitleNav'
+// 公共面包屑
+import {Bcrumb} from '../../component/bcrumb/bcrumb';
 import "./style.css"
 // 引入 ECharts 主模块
 import echarts from 'echarts/lib/echarts';
@@ -21,23 +26,17 @@ import 'echarts/lib/component/grid';
 
 import styles from './style/user.less';
 import EchartsLine from './EchartsLine'
-import Backgrounds from './image/img2.jpg';
-import BackgroundImage from './image/img3.jpg';
-const sectionStyles = {
-    width: "100%",
-    height: "60px",
-    backgroundImage: `url(${BackgroundImage})`,
 
-};
-const sectionStyle = {
-    width: "100%",
-    height: "80px",
-    backgroundImage: `url(${Backgrounds})`,
-    // borderBotton:"2px solid #eee",
-    backgroundSize:"100% 100%"
-};
+//引入监测图片
+import Monitor from './image/检测.jpg'
+import {bindActionCreators} from "redux";
+import {loadings, numberSource} from "../../redux/action/NumberSource";
+import {changekeyData} from "../../redux/action/changeKeyActions";
+
 const TreeNode = Tree.TreeNode;
 const Search = Input.Search;
+const FormItem = Form.Item;
+const Option = Select.Option;
 const columns = [
     {
         code: 'LHJ001',
@@ -122,7 +121,7 @@ function handleMenuClick(e) {
 }
 
 /* 以类的方式创建一个组件 */
-class Main extends Component {
+class Mains extends Component {
     constructor(props) {
         super(props);
         const treeData = [
@@ -174,7 +173,10 @@ class Main extends Component {
             modalKey: "",
             butVisible: true,
             sourceType: "",
-            record: ""
+            record: "",
+            changeNav: true,// index列表导航一级标签控制
+            changeNavChild: true,// index列表导航二级标签控制
+            changeStateDic: true,
         };
     }
 
@@ -219,9 +221,146 @@ class Main extends Component {
             autoExpandParent: true
         });
     };
+    /**
+     * 一级菜单点击
+     * */
+    navChange = () => {
+        this.setState({
+            changeNav: false
+        })
+    };
+    /**
+     * 一级菜单点击 抬起
+     * */
+    navChangeUp = () => {
+        console.log(this.state.changeNav)
+        if (this.state.changeNav == "false") {
+            console.log("10086")
+        }
+        this.setState({
+            changeNav: true
+        })
+    };
+    /**
+     * 2级菜单点击
+     * */
+    changeNavChild = () => {
+        this.setState({
+            changeNavChild: false
+        })
+    };
+    /**
+     * 2级菜单点击 抬起
+     * */
+    changeNavChildUp = () => {
+        this.setState({
+            changeNavChild: true
+        })
+    };
+    /**
+     * 巡点序号排序
+     * */
+    changBarRankRight = () => {
+        this.setState({
+            changeStateDic: true
+        })
+    };
+    /**
+     *事件类型排序
+     * */
+    changBarRankLeft = () => {
+        this.setState({
+            changeStateDic: false
+        })
+    }
+    GoAction = (changeData) => {
+        const {actions} = this.props;
+        actions.changekeyData(changeData, "")
+    }
+    getField = () => {
+
+        const {getFieldDecorator} = this.props.form;
+        const children = [];
+        children.push(
+            <Col xs={24} sm={24} md={8} lg={3} xl={3} key={"userName"} style={{height: "40px"}}>
+                <FormItem
+                    key="name"
+                >
+                    {getFieldDecorator('userName')(
+                        <span className="FormTitle">蠡湖变</span>
+                    )}
+                </FormItem>
+            </Col>
+        )
+        children.push(
+            <Col xs={24} sm={24} md={8} lg={5} xl={5} key={"select"} style={{height: "40px"}}>
+                <FormItem
+                    key="select"
+                >
+                    {getFieldDecorator('select')(
+                        <Select
+                        >
+                            <Option value="0">蠡湖变</Option>
+                            <Option value="1">清湖变</Option>
+                        </Select>
+                    )}
+                </FormItem>
+            </Col>
+        )
+        children.push(
+            <Col xs={24} sm={24} md={8} lg={5} xl={5} key={"input"} style={{height: "40px"}}>
+                <FormItem
+                    key="input"
+                >
+                    {getFieldDecorator('select')(
+                        <Input placeholder="请输入巡检编号" style={{height: "35px"}}/>
+                    )}
+                </FormItem>
+            </Col>
+        )
+        children.push(
+            <Col xs={24} sm={24} md={8} lg={2} xl={2} key={"button"} style={{height: "40px"}}>
+                <FormItem
+                    key="button"
+                >
+                    {getFieldDecorator('button')(
+                        <Button style={{border: "1px solid #106664", color: "#106664"}}>搜索</Button>
+                    )}
+                </FormItem>
+            </Col>
+        )
+        children.push(
+            <Col xs={24} sm={24} md={16} lg={8} xl={8} key={"button1"} style={{height: "40px"}}>
+                <FormItem
+                    key="button1"
+                >
+                    {getFieldDecorator('button1')(
+                        <div className="change-two-tit">
+                            <div
+                                className={this.state.changeStateDic ? "changeLeft" : "changeRight"}
+                                onClick={this.changBarRankRight}
+                            >
+                                巡点序号排序
+                            </div>
+                            <div
+                                className={this.state.changeStateDic ? "changeRight" : "changeLeft"}
+                                onClick={this.changBarRankLeft}
+                            >
+                                事件类型排序
+                            </div>
+                        </div>
+                    )}
+                </FormItem>
+            </Col>
+        )
+
+        return children;
+
+    }
 
     render() {
         const {searchValue, expandedKeys, autoExpandParent} = this.state;
+
         const loop = data =>
             data.map(item => {
                 const index = item.title.indexOf(searchValue);
@@ -247,104 +386,248 @@ class Main extends Component {
                 return <TreeNode key={item.key} title={title}/>;
             });
         return (
-            <div >
-                <div className="DayContent">
-                <Row >
-                    <Col xs={24} sm={24} md={24} lg={6} xl={6}>
-                        <Card style={{width: "100%", minHeight: 810}}>
-                            <div style={sectionStyles} >
-                                <h3 className="char-tieles">点位列表</h3>
-                            </div>
-                            <Search
-                                style={{marginBottom: 8,marginLeft:"20px",marginTop:"25px",width:"90%"}}
-                                placeholder="请输入要搜索的点位"
-                                onChange={this.onChange}
+            <div>
+                <Row>
+                    <Bcrumb title="智能巡检"/>
+                    <Col xs={24} sm={24} md={24} lg={5} xl={5} className="LeftFloat">
+
+                        <Card className="contentLeft">
+                            <RirhtTitleNav
+                                title={"点位点列表"}
                             />
-                            <Tree
-                                onExpand={this.onExpand}
-                                expandedKeys={expandedKeys}
-                                autoExpandParent={autoExpandParent}
-                                style={{marginLeft:"16px"}}
-                            >
-                                {loop(gData)}
-                            </Tree>
+                            {/*<div className="pagin-bottom">*/}
+                            {/*<Pagination size="small" total={200} style={{textAlign: "center"}}/>*/}
+                            {/*<span style={{display: "block", textAlign: "right", marginRight: "34px"}}>共200条</span>*/}
+                            {/*</div>*/}
                         </Card>
                     </Col>
-                    <Col xs={24} sm={24} md={24} lg={18} xl={18}>
-                        <Card style={{width: "100%", minHeight: 810,}}>
-                            <div style={sectionStyle} >
-                                <span style={{}} className="change">蠡湖变</span>
+                    <Col xs={23} sm={23} md={23} lg={18} xl={18} className="RightFloat">
+                        <Card className="contentRight">
+                            <div className="AiTitle">
+                                <p>监测点位</p>
+                            </div>
+                            <Form>
+                                <Row gutter={24}>
+                                    {this.getField()}
+                                </Row>
+                            </Form>
+                            <div className="Monitor">
+                                <Link to='/contentDetail'
+                                      onClick={() => this.GoAction('AIinspect')}
+                                >
+                                    <div className="MonitorList" style={{marginLeft: "0px"}}>
+                                        <img src={Monitor}/>
+                                        <p>
+                                            <span className="MonitorTitles">巡检编号:</span>
+                                            <span
+                                                className="MonitorCont">&nbsp;&nbsp;&nbsp;LHJ001</span>
+                                        </p>
+                                        <p>
+                                            <span className="MonitorTitles">#1号位:</span>
+                                            <span
+                                                className="MonitorCont">&nbsp;&nbsp;&nbsp;油压检测</span>
+                                        </p>
+                                        <p>
+                                            <span className="MonitorTitles">状态:</span>
+                                            <span className="MonitorCont"
+                                                  style={{color: "#006e6b"}}>&nbsp;&nbsp;&nbsp;进行中
+                                        </span>
+                                        </p>
+                                    </div>
+                                </Link>
+                                <div className="MonitorList">
+                                    <img src={Monitor}/>
+                                    <p><span className="MonitorTitles">巡检编号:</span><span
+                                        className="MonitorCont">&nbsp;&nbsp;&nbsp;LHJ001</span></p>
+                                    <p><span className="MonitorTitles">#1号位:</span><span
+                                        className="MonitorCont">&nbsp;&nbsp;&nbsp;油压检测</span></p>
+                                    <p><span className="MonitorTitles">状态:</span><span className="MonitorCont"
+                                                                                       style={{color: "#006e6b"}}>&nbsp;&nbsp;&nbsp;进行中</span>
+                                    </p>
+                                </div>
+                                <div className="MonitorList">
+                                    <img src={Monitor}/>
+                                    <p><span className="MonitorTitles">巡检编号:</span><span
+                                        className="MonitorCont">&nbsp;&nbsp;&nbsp;LHJ001</span></p>
+                                    <p><span className="MonitorTitles">#1号位:</span><span
+                                        className="MonitorCont">&nbsp;&nbsp;&nbsp;油压检测</span></p>
+                                    <p><span className="MonitorTitles">状态:</span><span className="MonitorCont"
+                                                                                       style={{color: "#006e6b"}}>&nbsp;&nbsp;&nbsp;进行中</span>
+                                    </p>
+                                </div>
+                                <div className="MonitorList">
+                                    <img src={Monitor}/>
+                                    <p><span className="MonitorTitles">巡检编号:</span><span
+                                        className="MonitorCont">&nbsp;&nbsp;&nbsp;LHJ001</span></p>
+                                    <p><span className="MonitorTitles">#1号位:</span><span
+                                        className="MonitorCont">&nbsp;&nbsp;&nbsp;油压检测</span></p>
+                                    <p><span className="MonitorTitles">状态:</span><span className="MonitorCont"
+                                                                                       style={{color: "#006e6b"}}>&nbsp;&nbsp;&nbsp;进行中</span>
+                                    </p>
+                                </div>
+                                <div className="MonitorList" style={{marginLeft: "0px", clear: "both"}}>
+                                    <img src={Monitor}/>
+                                    <p><span className="MonitorTitles">巡检编号:</span><span
+                                        className="MonitorCont">&nbsp;&nbsp;&nbsp;LHJ001</span></p>
+                                    <p><span className="MonitorTitles">#1号位:</span><span
+                                        className="MonitorCont">&nbsp;&nbsp;&nbsp;油压检测</span></p>
+                                    <p><span className="MonitorTitles">状态:</span><span className="MonitorCont"
+                                                                                       style={{color: "#006e6b"}}>&nbsp;&nbsp;&nbsp;进行中</span>
+                                    </p>
+                                </div>
+                                <div className="MonitorList">
+                                    <img src={Monitor}/>
+                                    <p><span className="MonitorTitles">巡检编号:</span><span
+                                        className="MonitorCont">&nbsp;&nbsp;&nbsp;LHJ001</span></p>
+                                    <p><span className="MonitorTitles">#1号位:</span><span
+                                        className="MonitorCont">&nbsp;&nbsp;&nbsp;油压检测</span></p>
+                                    <p><span className="MonitorTitles">状态:</span><span className="MonitorCont"
+                                                                                       style={{color: "#006e6b"}}>&nbsp;&nbsp;&nbsp;进行中</span>
+                                    </p>
+                                </div>
+                                <div className="MonitorList">
+                                    <img src={Monitor}/>
+                                    <p><span className="MonitorTitles">巡检编号:</span><span
+                                        className="MonitorCont">&nbsp;&nbsp;&nbsp;LHJ001</span></p>
+                                    <p><span className="MonitorTitles">#1号位:</span><span
+                                        className="MonitorCont">&nbsp;&nbsp;&nbsp;油压检测</span></p>
+                                    <p><span className="MonitorTitles">状态:</span><span className="MonitorCont"
+                                                                                       style={{color: "#006e6b"}}>&nbsp;&nbsp;&nbsp;进行中</span>
+                                    </p>
+                                </div>
+                                <div className="MonitorList">
+                                    <img src={Monitor}/>
+                                    <p><span className="MonitorTitles">巡检编号:</span><span
+                                        className="MonitorCont">&nbsp;&nbsp;&nbsp;LHJ001</span></p>
+                                    <p><span className="MonitorTitles">#1号位:</span><span
+                                        className="MonitorCont">&nbsp;&nbsp;&nbsp;油压检测</span></p>
+                                    <p><span className="MonitorTitles">状态:</span><span className="MonitorCont"
+                                                                                       style={{color: "#006e6b"}}>&nbsp;&nbsp;&nbsp;进行中</span>
+                                    </p>
+                                </div>
+                                <div className="pagin-bottom" style={{width: "600px", marginLeft: "60%"}}>
+
+                                    <Pagination size="small" total={200}
+                                                style={{float: "right", width: "320px", marginRight: "20%"}}/>
+                                </div>
                             </div>
 
 
-                            {this.state.nowData.map((item, index) => {
-                                return (
-                                    <div key={index}>
-                                        <Col key={index} xs={24} sm={24} md={24} lg={12} xl={12}>
-                                            <div key={index} className="user-container">
-                                                <span style={{display:"block",width:"100%",fontSize:"16px",paddingLeft:"20px",marginTop:"15px"}}>
-                                                    <span style={{float:"left"}}>巡检编号:{item.code}</span><span style={{float:"right",paddingRight:"20px"}}>{item.codeindex}</span>
-                                                </span>
-
-                                                <img style={{width: 610, height: 400,marginTop:"15px",paddingLeft:"20px"}} src={item.urls} alt=""/>
-                                                <h3 style={{display:"block",width:"100%",fontSize:"16px",paddingLeft:"20px",marginTop:"15px"}}>
-                                                    <span style={{width:"10px",height:"10px",backgroundColor:"#f2ba0f",display:"block",float:"left",marginTop:"7px"}}></span>&nbsp;&nbsp;状态：{item.success}</h3>
-                                                <h3 style={{display:"block",width:"100%",fontSize:"16px",paddingLeft:"20px",marginTop:"15px"}}>
-                                                    <span style={{width:"10px",height:"10px",backgroundColor:"#f13283",display:"block",float:"left",marginTop:"7px"}}></span>&nbsp;&nbsp;监测模式：{item.testModel}</h3>
-                                                <h3 style={{display:"block",width:"100%",fontSize:"16px",paddingLeft:"20px",marginTop:"15px"}}>
-                                                    <span style={{width:"10px",height:"10px",backgroundColor:"#10a3e7",display:"block",float:"left",marginTop:"7px"}}></span>&nbsp;&nbsp;监测类型：{item.testType}</h3>
-                                                <div className="user-test-button">
-                                                    <Dropdown overlay={menu}>
-                                                        <Button style={{float:"right",backgroundColor:"#384042",color:"#Fff"}} >
-                                                            操作 <Icon type="down"/>
-                                                        </Button>
-                                                    </Dropdown>
-                                                </div>
-                                            </div>
-                                        </Col>
-                                    </div>
-                                )
-                            })}
                         </Card>
+
                     </Col>
                 </Row>
-                </div>
-                <Modal
-                    title="巡检详情"
-                    visible={this.state.visible}
-                    onOk={this.handleOk}
-                    width={900}
-                    bodyStyle={{height: "500px"}}
-                    onCancel={this.handleCancel}
-                    destroyOnClose={true}
-                    footer={null}
-                >
-                    <div className="video-min">
-                        <div className="video-left">
-                            <Button onClick={this.handleOk} type="primary">返回</Button>
-                            <img src={require("../../public/index.jpg")} alt=""/>
-                            <div className="video-two-but">
-                                <Button onClick={this.handleOk} type="primary">正常</Button>
-                                <Button onClick={this.handleOk} type="primary">报告异常</Button>
-                            </div>
-                        </div>
-                        <div className="video-right">
-                            <h3><span>设备编号：</span>000000</h3>
-                            <h3><span>设备类型：</span>油位表</h3>
-                            <h3><span>当前状态：</span>60 （正常）</h3>
-                            <h3><span>状态预测：</span>临近警戒线</h3>
-                            <EchartsLine
-                                Width={100}
-                                Height={100}
-                            />
-                        </div>
-                    </div>
-                </Modal>
+                {/*<div className="DayContent">*/}
+                {/*<Row >*/}
+                {/*<Col xs={24} sm={24} md={24} lg={6} xl={6}>*/}
+                {/*<Card style={{width: "100%", minHeight: 810}}>*/}
+                {/*<div style={sectionStyles} >*/}
+                {/*<h3 className="char-tieles">点位列表</h3>*/}
+                {/*</div>*/}
+                {/*<Search*/}
+                {/*style={{marginBottom: 8,marginLeft:"20px",marginTop:"25px",width:"90%"}}*/}
+                {/*placeholder="请输入要搜索的点位"*/}
+                {/*onChange={this.onChange}*/}
+                {/*/>*/}
+                {/*<Tree*/}
+                {/*onExpand={this.onExpand}*/}
+                {/*expandedKeys={expandedKeys}*/}
+                {/*autoExpandParent={autoExpandParent}*/}
+                {/*style={{marginLeft:"16px"}}*/}
+                {/*>*/}
+                {/*{loop(gData)}*/}
+                {/*</Tree>*/}
+                {/*</Card>*/}
+                {/*</Col>*/}
+                {/*<Col xs={24} sm={24} md={24} lg={18} xl={18}>*/}
+                {/*<Card style={{width: "100%", minHeight: 810,}}>*/}
+                {/*<div style={sectionStyle} >*/}
+                {/*<span style={{}} className="change">蠡湖变</span>*/}
+                {/*</div>*/}
+
+
+                {/*{this.state.nowData.map((item, index) => {*/}
+                {/*return (*/}
+                {/*<div key={index}>*/}
+                {/*<Col key={index} xs={24} sm={24} md={24} lg={12} xl={12}>*/}
+                {/*<div key={index} className="user-container">*/}
+                {/*<span style={{display:"block",width:"100%",fontSize:"16px",paddingLeft:"20px",marginTop:"15px"}}>*/}
+                {/*<span style={{float:"left"}}>巡检编号:{item.code}</span><span style={{float:"right",paddingRight:"20px"}}>{item.codeindex}</span>*/}
+                {/*</span>*/}
+
+                {/*<img style={{width: 610, height: 400,marginTop:"15px",paddingLeft:"20px"}} src={item.urls} alt=""/>*/}
+                {/*<h3 style={{display:"block",width:"100%",fontSize:"16px",paddingLeft:"20px",marginTop:"15px"}}>*/}
+                {/*<span style={{width:"10px",height:"10px",backgroundColor:"#f2ba0f",display:"block",float:"left",marginTop:"7px"}}></span>&nbsp;&nbsp;状态：{item.success}</h3>*/}
+                {/*<h3 style={{display:"block",width:"100%",fontSize:"16px",paddingLeft:"20px",marginTop:"15px"}}>*/}
+                {/*<span style={{width:"10px",height:"10px",backgroundColor:"#f13283",display:"block",float:"left",marginTop:"7px"}}></span>&nbsp;&nbsp;监测模式：{item.testModel}</h3>*/}
+                {/*<h3 style={{display:"block",width:"100%",fontSize:"16px",paddingLeft:"20px",marginTop:"15px"}}>*/}
+                {/*<span style={{width:"10px",height:"10px",backgroundColor:"#10a3e7",display:"block",float:"left",marginTop:"7px"}}></span>&nbsp;&nbsp;监测类型：{item.testType}</h3>*/}
+                {/*<div className="user-test-button">*/}
+                {/*<Dropdown overlay={menu}>*/}
+                {/*<Button style={{float:"right",backgroundColor:"#384042",color:"#Fff"}} >*/}
+                {/*操作 <Icon type="down"/>*/}
+                {/*</Button>*/}
+                {/*</Dropdown>*/}
+                {/*</div>*/}
+                {/*</div>*/}
+                {/*</Col>*/}
+                {/*</div>*/}
+                {/*)*/}
+                {/*})}*/}
+                {/*</Card>*/}
+                {/*</Col>*/}
+                {/*</Row>*/}
+                {/*</div>*/}
+                {/*<Modal*/}
+                {/*title="巡检详情"*/}
+                {/*visible={this.state.visible}*/}
+                {/*onOk={this.handleOk}*/}
+                {/*width={900}*/}
+                {/*bodyStyle={{height: "500px"}}*/}
+                {/*onCancel={this.handleCancel}*/}
+                {/*destroyOnClose={true}*/}
+                {/*footer={null}*/}
+                {/*>*/}
+                {/*<div className="video-min">*/}
+                {/*<div className="video-left">*/}
+                {/*<Button onClick={this.handleOk} type="primary">返回</Button>*/}
+                {/*<img src={require("../../public/index.jpg")} alt=""/>*/}
+                {/*<div className="video-two-but">*/}
+                {/*<Button onClick={this.handleOk} type="primary">正常</Button>*/}
+                {/*<Button onClick={this.handleOk} type="primary">报告异常</Button>*/}
+                {/*</div>*/}
+                {/*</div>*/}
+                {/*<div className="video-right">*/}
+                {/*<h3><span>设备编号：</span>000000</h3>*/}
+                {/*<h3><span>设备类型：</span>油位表</h3>*/}
+                {/*<h3><span>当前状态：</span>60 （正常）</h3>*/}
+                {/*<h3><span>状态预测：</span>临近警戒线</h3>*/}
+                {/*<EchartsLine*/}
+                {/*Width={100}*/}
+                {/*Height={100}*/}
+                {/*/>*/}
+                {/*</div>*/}
+                {/*</div>*/}
+                {/*</Modal>*/}
             </div>
         )
     }
 
 }
 
-export default Main;
+// 将 state 作为 props 绑定到 Product 上。
+const mapStateToProps = (state, ownProps) => {
+    const {sourceNumber, changeDataReducer} = state
+    return {
+        sourceNumber: sourceNumber,
+        changeData: changeDataReducer,
+        state
+    }
+}
+
+// 将 action 作为 props 绑定到 Product 上。
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    actions: bindActionCreators({numberSource, loadings, changekeyData}, dispatch)
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(Mains));
 

@@ -37,7 +37,7 @@ const FormItem = Form.Item;
 const {MonthPicker, RangePicker, WeekPicker} = DatePicker;
 
 /* 以类的方式创建一个组件 */
-class Mains extends Component {
+class Main extends Component {
     constructor(props) {
         super(props);
     }
@@ -374,45 +374,45 @@ class Mains extends Component {
     render() {
         return (
             <div>
-                <div className="data-titles" style={longBan}>
-                    <Form
-                        onSubmit={this.handleSearch}
-                    >
-                        <Row>
-                            {this.getFields()}
-                        </Row>
-                    </Form>
-                </div>
-                <div>
-                    <div className="chartBox" style={{backgroundColor:"#fff"}}>·
-                        <div ref="line" style={{width: 700, height: 400}}></div>
-                        <div id="main" style={{width: 700, height: 400, marginLeft: 40}}></div>
-                        <div ref="lines" style={{width: 700, height: 400}}></div>
-                        <div className="data-min">
-                            <div className="chart-min">
-                                <div className="admin-min">
-                                    <span>事件详情:</span>
-                                    <span style={{color: "#71f20f"}}>查看</span>
-                                </div>
-                                <div className="admin-min">
-                                    <span>数据分析报告:</span>
-                                    <span style={{color: "#71f20f"}}>查看</span>
-                                </div>
-                            </div>
-                            <div className="chartBut">
-                                <div className="adcButton">输出当前报表</div>
-                                <div className="adcButton">输出所有报表</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+                {/*<div className="data-titles" style={longBan}>*/}
+                    {/*<Form*/}
+                        {/*onSubmit={this.handleSearch}*/}
+                    {/*>*/}
+                        {/*<Row>*/}
+                            {/*{this.getFields()}*/}
+                        {/*</Row>*/}
+                    {/*</Form>*/}
+                {/*</div>*/}
+                {/*<div>*/}
+                    {/*<div className="chartBox" style={{backgroundColor:"#fff"}}>·*/}
+                        {/*<div ref="line" style={{width: 700, height: 400}}></div>*/}
+                        {/*<div id="main" style={{width: 700, height: 400, marginLeft: 40}}></div>*/}
+                        {/*<div ref="lines" style={{width: 700, height: 400}}></div>*/}
+                        {/*<div className="data-min">*/}
+                            {/*<div className="chart-min">*/}
+                                {/*<div className="admin-min">*/}
+                                    {/*<span>事件详情:</span>*/}
+                                    {/*<span style={{color: "#71f20f"}}>查看</span>*/}
+                                {/*</div>*/}
+                                {/*<div className="admin-min">*/}
+                                    {/*<span>数据分析报告:</span>*/}
+                                    {/*<span style={{color: "#71f20f"}}>查看</span>*/}
+                                {/*</div>*/}
+                            {/*</div>*/}
+                            {/*<div className="chartBut">*/}
+                                {/*<div className="adcButton">输出当前报表</div>*/}
+                                {/*<div className="adcButton">输出所有报表</div>*/}
+                            {/*</div>*/}
+                        {/*</div>*/}
+                    {/*</div>*/}
+                {/*</div>*/}
 
             </div>
         );
     }
 }
 
-const Main = Form.create()(Mains);
 export default Main
 
 

@@ -107,18 +107,24 @@ class Lmenus extends Component {
                 {/*<span className="nav-text"style={{ paddingLeft:"10px"}}>预案编制</span>*/}
                 {/*</Link>*/}
                 {/*</Menu.Item>*/}
-                {/*<Menu.Item key="数据分析" onClick={(key) => this.changKey(key,"team")}>*/}
-                    {/*<Link to="/data">*/}
-                {/*<Icon type="form" />*/}
-                        {/*<span className="nav-text" style={{ paddingLeft:"10px"}}>数据分析</span>*/}
-                    {/*</Link>*/}
-                {/*</Menu.Item>*/}
+                <Menu.Item key="数据分析" onClick={(key) => this.changKey(key,"team")}>
+                    <Link to="/data">
+                <Icon type="form" />
+                        <span className="nav-text" style={{ paddingLeft:"10px"}}>数据分析</span>
+                    </Link>
+                </Menu.Item>
                 <Menu.Item key="history" onClick={(key) => this.changKey(key,"notification")}>
                     <Link to="/history">
                         <Icon type="clock-circle-o" />
                         {<span className="nav-text"  style={{ paddingLeft:"10px"}}>历史记录</span>}
                     </Link>
                 </Menu.Item>
+                {/*<Menu.Item key="history" onClick={(key) => this.changKey(key,"notification")}>*/}
+                {/*<Link to="/history">*/}
+                    {/*<Icon type="clock-circle-o" />*/}
+                    {/*{<span className="nav-text"  style={{ paddingLeft:"10px"}}>历史记录</span>}*/}
+                {/*</Link>*/}
+            {/*</Menu.Item>*/}
 
                 {/*<SubMenu key="123"*/}
                          {/*title={<span><Icon type="setting" style={{color: "#384042"}}/>*/}
@@ -131,7 +137,12 @@ class Lmenus extends Component {
                     {/*/!*</Menu.Item>*!/*/}
                 {/*</SubMenu>*/}
             </Menu>
-                <Button onClick={this.loginOut}><Icon type="poweroff" />退出登录</Button>
+                <Button
+                    onClick={this.loginOut}
+                    className="out-button-min"
+                >
+                    <Icon type="poweroff"
+                />退出登录</Button>
             </div>
         )
     }

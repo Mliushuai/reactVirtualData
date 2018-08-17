@@ -29,15 +29,15 @@ class ChartsIndexPie extends Component {
                 show:true,
                 orient: 'vertical',
                 x: 'left',
-                y:'middle',
+                y:'60',
                 data:['设备智能检测','站内外环境监测','现场作业监控','单人操作监控','辅助调控']
             },
             series : [
                 {
                     name: '访问来源',
                     type: 'pie',
-                    radius : '60%',
-                    center: ['60%', '50%'],
+                    radius : '85%',
+                    center: ['64%', '50%'],
                     data:[
                         {value:635, name:'设备智能检测'},
                         {value:310, name:'站内外环境监测'},
