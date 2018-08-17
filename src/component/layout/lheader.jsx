@@ -9,7 +9,7 @@ import {browserHistory} from 'react-router';
 import {bindActionCreators} from 'redux';
 import {changekeyData} from '../../redux/action/changeKeyActions';
 import './style/layout.less'
-import headerLogo from './image/headerLogo.png';
+import headerLogo from './image/headerLogo.jpg';
 
 const SubMenu = Menu.SubMenu;
 const {Header} = Layout;
@@ -59,7 +59,7 @@ class Lheaders extends Component {
 		return (
 			<Header className="layout-header">
                 <img src={headerLogo} />
-                <span>电力运检智能辅助系统</span>
+                <span>xxxxxxx系统</span>
                 <Link to='/general'> <p>待处理事件:&nbsp;&nbsp;{this.props.number}条</p></Link>
                 {/*<Bcrumb icon={this.props.state.changeDataReducer.types} title={this.props.state.changeDataReducer.changeData}/>*/}
                 {/*<div style={{position:"absolute",top:"0",right:"0",width:"25%",height:"70px"}}>*/}
